@@ -1,0 +1,1 @@
+var e=document.querySelector(`[data-header]`),t=()=>e?.classList.toggle(`is-scrolled`,window.scrollY>8);t(),window.addEventListener(`scroll`,t,{passive:!0});

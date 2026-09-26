@@ -1,0 +1,1 @@
+var e=document.querySelector(`[data-back-to-top]`);if(e){let t=()=>e.hidden=window.scrollY<800;t(),window.addEventListener(`scroll`,t,{passive:!0}),e.addEventListener(`click`,()=>{window.scrollTo({top:0}),document.querySelector(`#main`)?.focus({preventScroll:!0})})}
