@@ -19,6 +19,18 @@ import { certifications } from '../data/certifications';
     .cgallery {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+    /* Centre the odd certificate on the last row. */
+    .cgallery > :global(:last-child:nth-child(odd)) {
+      grid-column: 1 / -1;
+      justify-self: center;
+      width: calc(50% - 12px);
+    }
+  }
+  @media (max-width: 600px) {
+    .cgallery > :global(:last-child:nth-child(odd)) {
+      width: auto;
+      justify-self: stretch;
+    }
   }
   @media (max-width: 600px) {
     .cgallery {

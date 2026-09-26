@@ -29,7 +29,7 @@
 
   --container: 1240px;
   --gutter: clamp(16px, 4vw, 40px);
-  --section-y: clamp(64px, 9vw, 120px);
+  --section-y: clamp(52px, 6vw, 88px);
   --radius-sm: 8px;
   --radius: 14px;
   --radius-lg: 22px;
@@ -68,6 +68,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
+}
+
+[hidden] {
+  display: none !important;
 }
 
 img,
@@ -419,4 +423,9 @@ ol {
   background: var(--surface-alt);
   color: var(--muted);
   font-size: 0.9rem;
+}
+
+/* Avoid doubled spacing where a white section runs straight into the CTA band. */
+.section:not(.section--alt):not(.section--dark) + .cta {
+  padding-top: 0;
 }

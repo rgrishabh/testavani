@@ -69,6 +69,10 @@ import { whyChoose } from '../data/site';
     font-size: 1.1rem;
     margin-bottom: 8px;
   }
+  /* Odd count: let the last item span both columns instead of leaving a hole. */
+  .why__list li:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
   .why__list p {
     margin: 0;
     font-size: 0.95rem;

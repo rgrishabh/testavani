@@ -16,9 +16,8 @@ const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
       <p class="eyebrow">Contact</p>
       <H id="contact-title">{title}</H>
       <p class="lead">
-        Visit our laboratory, call us, or reach out on WhatsApp — we respond within 1 hour. Tell us about your
-        material, product and testing requirement and we will send the recommended tests, applicable standard and a
-        quotation.
+        Tell us about your material and testing requirement — we respond within 1 hour with the recommended tests,
+        applicable standard and a quotation.
       </p>
 
       <ul class="contact__list">
@@ -44,7 +43,8 @@ const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
           <div>
             <p class="contact__label">Laboratory</p>
             <address class="contact__value contact__addr">
-              {site.address.lines.map((l) => <span>{l}</span>)}
+              <span>{site.address.lines[0]}, {site.address.lines[1]}</span>
+              <span>{site.address.lines[2]}, {site.address.lines[3]}</span>
             </address>
             <a href={site.address.mapsHref} class="contact__sub" target="_blank" rel="noopener noreferrer">
               Get directions <Icon name="arrow-up-right" size={14} />
@@ -76,14 +76,14 @@ const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
   .contact__grid {
     display: grid;
     grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-    gap: clamp(40px, 6vw, 80px);
+    gap: clamp(32px, 5vw, 64px);
     align-items: start;
   }
   .contact__list {
     list-style: none;
     display: grid;
-    gap: 24px;
-    margin-top: 36px;
+    gap: 16px;
+    margin-top: 24px;
   }
   .contact__list li {
     display: flex;
@@ -95,11 +95,11 @@ const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
   }
   .contact__icon {
     flex: none;
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
     display: grid;
     place-items: center;
-    border-radius: 12px;
+    border-radius: 11px;
     background: #fff;
     border: 1px solid var(--line);
     color: var(--green-600);
@@ -122,7 +122,7 @@ const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
     font-style: normal;
   }
   a.contact__value {
-    font-size: 1.1rem;
+    font-size: 1.02rem;
     color: var(--green-700);
   }
   a.contact__value:hover {
@@ -130,8 +130,9 @@ const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
   }
   .contact__addr {
     display: grid;
+    font-size: 0.95rem;
     font-weight: 500;
-    line-height: 1.55;
+    line-height: 1.5;
   }
   .contact__sub {
     display: inline-flex;
@@ -142,7 +143,7 @@ const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
     font-weight: 650;
   }
   .contact__status {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 8px;
     margin: 6px 0 0;
@@ -151,6 +152,7 @@ const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
     color: var(--muted);
   }
   .contact__status::before {
+    flex: none;
     content: '';
     width: 8px;
     height: 8px;
@@ -165,21 +167,22 @@ const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
     box-shadow: 0 0 0 4px rgb(31 157 85 / 18%);
   }
   .contact__form {
-    padding: clamp(24px, 4vw, 44px);
+    padding: clamp(20px, 3vw, 32px);
     background: #fff;
     border: 1px solid var(--line);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow);
   }
   .contact__form-title {
-    font-size: 1.25rem;
-    margin-bottom: 24px;
+    font-size: 1.15rem;
+    margin-bottom: 16px;
   }
   @media (max-width: 960px) {
     .contact__grid {
       grid-template-columns: minmax(0, 1fr);
     }
   }
+
 </style>
 
 <script>
@@ -191,7 +194,7 @@ const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
       .reduce<Record<string, string>>((acc, p) => ((acc[p.type] = p.value), acc), {});
     const mins = Number(parts.hour) * 60 + Number(parts.minute);
     const open = parts.weekday !== 'Sun' && mins >= 540 && mins < 1260;
-    el.textContent = open ? 'Currently open' : 'Currently closed — send an enquiry and we will reply when we open';
+    el.textContent = open ? 'Currently open' : 'Currently closed · we reply from 9 AM';
     el.classList.toggle('is-open', open);
     el.hidden = false;
   }

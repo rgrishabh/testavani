@@ -110,9 +110,24 @@ const list = specialisedServices.filter((s) => s.slug !== exclude);
   .spcard:hover .spcard__more :global(svg) {
     transform: translateX(4px);
   }
+  /* Fill the last row when the count doesn't divide evenly (4 columns). */
+  @media (min-width: 1081px) {
+    .spcard:last-child:nth-child(4n + 3) {
+      grid-column: span 2;
+    }
+    .spcard:last-child:nth-child(4n + 2) {
+      grid-column: span 3;
+    }
+    .spcard:last-child:nth-child(4n + 1) {
+      grid-column: 1 / -1;
+    }
+  }
   @media (max-width: 1080px) {
     .spgrid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .spcard:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
     }
   }
   @media (max-width: 560px) {

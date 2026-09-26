@@ -48,7 +48,7 @@ const formsubmitTarget = import.meta.env.PUBLIC_FORMSUBMIT_TARGET || site.email;
     </div>
     <div class="field field--full">
       <label for="cf-message">Message <span aria-hidden="true">*</span></label>
-      <textarea id="cf-message" name="message" rows="5" required minlength="10" maxlength="3000" aria-describedby="cf-message-err" placeholder="Material or product, tests or standard required, number of samples…"></textarea>
+      <textarea id="cf-message" name="message" rows="4" required minlength="10" maxlength="3000" aria-describedby="cf-message-err" placeholder="Material or product, tests or standard required, number of samples…"></textarea>
       <p class="field__error" id="cf-message-err" data-error-for="message"></p>
     </div>
 
@@ -91,11 +91,11 @@ const formsubmitTarget = import.meta.env.PUBLIC_FORMSUBMIT_TARGET || site.email;
   .cform__grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px 20px;
+    gap: 14px 16px;
   }
   .field {
     display: grid;
-    gap: 8px;
+    gap: 6px;
     min-width: 0;
   }
   .field--full {
@@ -113,8 +113,8 @@ const formsubmitTarget = import.meta.env.PUBLIC_FORMSUBMIT_TARGET || site.email;
   select,
   textarea {
     width: 100%;
-    min-height: 50px;
-    padding: 12px 14px;
+    min-height: 46px;
+    padding: 10px 14px;
     font: inherit;
     font-size: 1rem;
     color: var(--ink);
@@ -128,7 +128,7 @@ const formsubmitTarget = import.meta.env.PUBLIC_FORMSUBMIT_TARGET || site.email;
   }
   textarea {
     resize: vertical;
-    min-height: 140px;
+    min-height: 104px;
   }
   input::placeholder,
   textarea::placeholder {
@@ -184,7 +184,7 @@ const formsubmitTarget = import.meta.env.PUBLIC_FORMSUBMIT_TARGET || site.email;
     overflow: hidden;
   }
   .cform__foot {
-    margin-top: 24px;
+    margin-top: 18px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
