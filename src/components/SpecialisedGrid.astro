@@ -1,0 +1,123 @@
+---
+import { url } from '../utils/url';
+import Icon from './Icon.astro';
+import { specialisedServices } from '../data/services';
+
+interface Props {
+  exclude?: string;
+}
+const { exclude } = Astro.props;
+const list = specialisedServices.filter((s) => s.slug !== exclude);
+---
+
+<ul class="spgrid">
+  {
+    list.map((s, i) => (
+      <li class="spcard" data-reveal data-delay={(i % 4) * 60}>
+        <span class="spcard__icon">
+          <Icon name={s.icon} size={24} />
+        </span>
+        <h3>
+          <a href={url(`/services/${s.slug}/`)}>{s.name}</a>
+        </h3>
+        <p>{s.summary}</p>
+        <span class="spcard__more" aria-hidden="true">
+          Learn more <Icon name="arrow" size={16} />
+        </span>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .spgrid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .spcard {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 26px 24px 22px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition:
+      transform 0.3s var(--ease),
+      box-shadow 0.3s var(--ease),
+      border-color 0.3s var(--ease);
+  }
+  .spcard:hover,
+  .spcard:focus-within {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: var(--green-200);
+  }
+  .spcard__icon {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 18px;
+    border-radius: 12px;
+    background: var(--green-50);
+    color: var(--green-600);
+    border: 1px solid var(--green-100);
+    transition: transform 0.3s var(--ease);
+  }
+  .spcard:hover .spcard__icon {
+    transform: translateY(-2px);
+  }
+  .spcard h3 {
+    font-size: 1.075rem;
+    margin-bottom: 8px;
+  }
+  .spcard h3 a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .spcard h3 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .spcard h3 a:focus-visible {
+    outline: none;
+  }
+  .spcard:has(a:focus-visible) {
+    outline: 3px solid var(--orange-500);
+    outline-offset: 3px;
+  }
+  .spcard p {
+    margin: 0 0 16px;
+    font-size: 0.925rem;
+    color: var(--muted);
+  }
+  .spcard__more {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 650;
+    color: var(--green-600);
+  }
+  .spcard__more :global(svg) {
+    transition: transform 0.3s var(--ease);
+  }
+  .spcard:hover .spcard__more :global(svg) {
+    transform: translateX(4px);
+  }
+  @media (max-width: 1080px) {
+    .spgrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 560px) {
+    .spgrid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

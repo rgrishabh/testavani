@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title="Privacy Policy"
+  description="How Avani Ecocare Labs Pvt. Ltd. collects, uses and protects information submitted through avaniecocare.com."
+>
+  <PageHero crumbs={[{ label: 'Privacy Policy' }]} title="Privacy Policy" lead="Last updated: 26 September 2026" />
+  <section class="section">
+    <div class="container prose">
+      <p>
+        This Privacy Policy explains how {site.legalName} (“Avani Ecocare Labs”, “we”, “us”) collects and uses
+        information when you visit avaniecocare.com or contact us through it.
+      </p>
+      <h2>Information we collect</h2>
+      <p>
+        When you submit the enquiry form, we collect the details you provide: your name, company, email address, phone
+        number, the service you are interested in and your message. We do not ask for sensitive personal data.
+      </p>
+      <p>
+        Like most websites, our hosting provider may record technical information such as your IP address, browser
+        type and pages visited, for security and to keep the site running.
+      </p>
+      <h2>How we use your information</h2>
+      <ul>
+        <li>To respond to your enquiry and prepare quotations.</li>
+        <li>To communicate with you about testing services you have requested.</li>
+        <li>To protect the website against spam and misuse.</li>
+      </ul>
+      <p>We do not sell your personal information or use it for unrelated marketing.</p>
+      <h2>Service providers</h2>
+      <p>
+        Enquiry form submissions are delivered to our inbox through Web3Forms, a form-processing service. The website is
+        hosted on GitHub Pages. These providers process data only as needed to provide their services.
+      </p>
+      <h2>Retention</h2>
+      <p>We keep enquiry information for as long as needed to respond to you and to maintain business records.</p>
+      <h2>Your choices</h2>
+      <p>
+        You can ask us to access, correct or delete the personal information you have sent us by emailing{' '}
+        <a href={`mailto:${site.email}`}>{site.email}</a>.
+      </p>
+      <h2>Contact</h2>
+      <p>
+        {site.legalName}<br />
+        {site.address.lines.join(', ')}<br />
+        Email: <a href={`mailto:${site.email}`}>{site.email}</a> · Phone: <a href={site.phone.href}>{site.phone.display}</a>
+      </p>
+      <p class="note">This policy is a general template and should be reviewed by the company before publication.</p>
+    </div>
+  </section>
+</BaseLayout>

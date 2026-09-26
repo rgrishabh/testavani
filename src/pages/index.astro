@@ -1,0 +1,183 @@
+---
+import { url } from '../utils/url';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import TrustStats from '../components/TrustStats.astro';
+import AboutSection from '../components/AboutSection.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ServiceGrid from '../components/ServiceGrid.astro';
+import SpecialisedGrid from '../components/SpecialisedGrid.astro';
+import AccreditationLogos from '../components/AccreditationLogos.astro';
+import WhyChoose from '../components/WhyChoose.astro';
+import IndustryCard from '../components/IndustryCard.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import CertificationGallery from '../components/CertificationGallery.astro';
+import StandardsStrip from '../components/StandardsStrip.astro';
+import FAQ from '../components/FAQ.astro';
+import ContactSection from '../components/ContactSection.astro';
+import Icon from '../components/Icon.astro';
+import { industries } from '../data/industries';
+import { faqs } from '../data/faqs';
+import { faqSchema, localBusinessSchema } from '../data/schema';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  rawTitle
+  title="Avani EcoCare Labs | ISO 17025 & NABL Accredited Testing Lab, Greater Noida"
+  description={site.description}
+  schema={[localBusinessSchema(), faqSchema(faqs)]}
+>
+  <Hero />
+  <TrustStats />
+  <AboutSection />
+
+  <section class="section section--alt" id="services" aria-labelledby="services-title">
+    <div class="container">
+      <div class="split-head">
+        <SectionHeader
+          id="services-title"
+          eyebrow="What We Do"
+          title="Services our labs provide"
+          lead="World-class testing capabilities across the full materials spectrum — chemical, mechanical, metallurgical and polymer testing, all under one roof."
+        />
+        <a href={url("/services/")} class="btn btn--outline split-head__cta" data-reveal>Explore Services <Icon name="arrow" /></a>
+      </div>
+      <h3 class="group-title" data-reveal>Testing by material</h3>
+      <ServiceGrid />
+      <h3 class="group-title" data-reveal>Specialised testing &amp; compliance</h3>
+      <SpecialisedGrid />
+    </div>
+  </section>
+
+  <WhyChoose />
+
+  <section class="section" aria-labelledby="industries-title">
+    <div class="container">
+      <div class="split-head">
+        <SectionHeader
+          id="industries-title"
+          eyebrow="Industries & Applications"
+          title="Trusted across every sector"
+          lead="From automotive and aerospace to electronics and construction — we test the materials that power every industry."
+        />
+        <a href={url("/industries/")} class="btn btn--outline split-head__cta" data-reveal>View Industries <Icon name="arrow" /></a>
+      </div>
+      <div class="igrid">
+        {industries.map((ind, i) => <IndustryCard {...ind} delay={(i % 4) * 70} />)}
+      </div>
+      <p class="more-note" data-reveal>
+        <strong>Don’t see your industry?</strong> We test materials across all sectors.{' '}
+        <a href={url("/contact/#enquiry")}>Contact us with your requirements</a> or{' '}
+        <a href={site.whatsapp.href} target="_blank" rel="noopener noreferrer">WhatsApp us</a>.
+      </p>
+    </div>
+  </section>
+
+  <ProcessSteps />
+
+  <section class="section" id="certifications" aria-labelledby="certs-title">
+    <div class="container">
+      <div class="split-head">
+        <SectionHeader
+          id="certs-title"
+          eyebrow="Credentials"
+          title="Our labs are certified!"
+          lead="We support our clients in their new product development activities by providing engineering, testing and homologation services that fit their needs. All testing is performed to internationally recognised standards in ISO 17025, NABL accredited and BIS approved laboratories."
+        />
+        <a href={url("/certifications/")} class="btn btn--outline split-head__cta" data-reveal>Certification Details <Icon name="arrow" /></a>
+      </div>
+      <AccreditationLogos />
+      <h3 class="group-title" data-reveal>ISO management system certificates</h3>
+      <CertificationGallery />
+      <div class="stds" data-reveal>
+        <h3>Testing standards we follow</h3>
+        <StandardsStrip />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="faq-title">
+    <div class="container faq-grid">
+      <SectionHeader
+        id="faq-title"
+        eyebrow="FAQ"
+        title="Frequently asked questions"
+        lead="Answers to common questions about our testing services, samples and certifications."
+      >
+        <p class="faq-more">
+          Can’t find your answer? <a href={url("/contact/#enquiry")}>Send an enquiry</a> or call{' '}
+          <a href={site.phone.href}>{site.phone.display}</a>.
+        </p>
+      </SectionHeader>
+      <FAQ items={faqs} />
+    </div>
+  </section>
+
+  <ContactSection />
+</BaseLayout>
+
+<style>
+  .split-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .split-head__cta {
+    margin-bottom: clamp(36px, 5vw, 56px);
+    flex: none;
+  }
+  .igrid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .group-title {
+    margin: 48px 0 20px;
+    font-size: 1.15rem;
+  }
+  .split-head + .group-title {
+    margin-top: 0;
+  }
+  .more-note {
+    margin: 28px 0 0;
+    color: var(--muted);
+  }
+  .more-note strong {
+    color: var(--ink);
+  }
+  .stds {
+    margin-top: 56px;
+  }
+  .stds h3 {
+    margin-bottom: 18px;
+  }
+  .faq-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 24px clamp(40px, 6vw, 88px);
+    align-items: start;
+  }
+  .faq-more {
+    margin-top: 20px;
+    color: var(--muted);
+  }
+  @media (max-width: 1000px) {
+    .igrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .faq-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  @media (max-width: 640px) {
+    .igrid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .split-head__cta {
+      margin-top: -16px;
+    }
+  }
+</style>

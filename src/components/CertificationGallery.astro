@@ -1,0 +1,28 @@
+---
+import CertificationCard from './CertificationCard.astro';
+import CertificateModal from './CertificateModal.astro';
+import { certifications } from '../data/certifications';
+---
+
+<div class="cgallery">
+  {certifications.map((c, i) => <CertificationCard cert={c} index={i} />)}
+</div>
+<CertificateModal />
+
+<style>
+  .cgallery {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+  @media (max-width: 960px) {
+    .cgallery {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 600px) {
+    .cgallery {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

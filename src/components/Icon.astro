@@ -1,0 +1,87 @@
+---
+// Inline line icons (24px grid, 1.75 stroke). Decorative by default.
+interface Props {
+  name: keyof typeof paths;
+  size?: number;
+  class?: string;
+  label?: string;
+}
+
+const paths = {
+  arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  'arrow-up-right': '<path d="M7 17 17 7M8 7h9v9"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  phone:
+    '<path d="M5 4h3.5l1.8 4.4-2.3 1.5a11 11 0 0 0 6.1 6.1l1.5-2.3L20 15.5V19a1.5 1.5 0 0 1-1.6 1.5A16.5 16.5 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4Z"/>',
+  mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/>',
+  pin: '<path d="M12 21s-7-6.2-7-11.5a7 7 0 1 1 14 0C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  whatsapp:
+    '<path d="M4 20l1.3-3.9A8.5 8.5 0 1 1 8 18.8L4 20Z"/><path d="M9 8.8c0 3.3 2.9 6.2 6.2 6.2l1.3-1.5-1.9-1-1 .9a4.6 4.6 0 0 1-2.9-2.9l.9-1-1-1.9L9 8.8Z"/>',
+  menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+  close: '<path d="M6 6l12 12M18 6 6 18"/>',
+  'chevron-down': '<path d="m6 9 6 6 6-6"/>',
+  'chevron-left': '<path d="m15 6-6 6 6 6"/>',
+  'chevron-right': '<path d="m9 6 6 6-6 6"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  minus: '<path d="M5 12h14"/>',
+  'zoom-in': '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M11 8v6M8 11h6"/>',
+  'zoom-out': '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M8 11h6"/>',
+  external: '<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+  expand: '<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>',
+  // Materials
+  polymer:
+    '<circle cx="6" cy="7" r="2.2"/><circle cx="18" cy="7" r="2.2"/><circle cx="12" cy="17" r="2.2"/><path d="M8.2 7h7.6M7.2 8.9l3.6 6.2M16.8 8.9l-3.6 6.2"/>',
+  rubber: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/>',
+  metal: '<path d="M3 16.5 7 9h14l-4 7.5H3Z"/><path d="M7 9l2-4h10l2 4"/>',
+  plywood: '<rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3 9.7h18M3 14.3h18"/>',
+  tile: '<rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/>',
+  utensil: '<path d="M3 10h18l-1.6 7.2A2 2 0 0 1 17.5 19h-11a2 2 0 0 1-1.9-1.8L3 10Z"/><path d="M8 10V7a4 4 0 0 1 8 0v3M1.5 10H3M21 10h1.5"/>',
+  standard:
+    '<path d="M12 3 4 6.5v5c0 4.6 3.4 8.4 8 9.5 4.6-1.1 8-4.9 8-9.5v-5L12 3Z"/><path d="m8.8 12.2 2.2 2.2 4.4-4.6"/>',
+  hardness: '<path d="M12 3v9M9 9l3 3 3-3"/><path d="M4 16h16v4H4z"/><path d="M10 16a2 2 0 0 1 4 0"/>',
+  corrosion: '<path d="M12 3s-5 5.7-5 9.5a5 5 0 0 0 10 0C17 8.7 12 3 12 3Z"/><path d="M4 21h16"/><path d="M10 13.5a2 2 0 0 0 2 2"/>',
+  ndt: '<path d="M3 12h3l2-5 3 10 3-8 2 3h5"/>',
+  chip: '<rect x="6" y="6" width="12" height="12" rx="1.5"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/><path d="m9.5 12 1.8 1.8 3.2-3.4"/>',
+  plane: '<path d="M10.5 21 12 17l-1.5-4.5L3 10V8l8 1.5V4.5a1.5 1.5 0 0 1 3 0v5L21 8v2l-7 2.5L12.5 17l1.5 4"/>',
+  // General
+  flask: '<path d="M9 3h6M10 3v6L4.8 18.2A1.9 1.9 0 0 0 6.5 21h11a1.9 1.9 0 0 0 1.7-2.8L14 9V3"/><path d="M7.5 14h9"/>',
+  microscope:
+    '<path d="M6 21h12M9 17h6M12 17v4"/><path d="M8.5 3.5 13 12M6.6 4.5l2-1 5 9-2 1z"/><path d="M14.5 9.5A5.5 5.5 0 0 1 17 17"/>',
+  gauge: '<path d="M4.5 17a8.5 8.5 0 1 1 15 0"/><path d="m12 13 4-4"/><circle cx="12" cy="13" r="1.3"/>',
+  report: '<path d="M7 3h7l5 5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v5h5M9.5 13h6M9.5 17h4"/>',
+  users:
+    '<circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><path d="M16 5.2a3 3 0 0 1 0 5.6M18.5 19.5a5.5 5.5 0 0 0-3-4.9"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
+  layers: '<path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/>',
+  factory: '<path d="M3 20V10l5 3V10l5 3V10l5 3V4h3v16H3Z"/><path d="M7 16.5h2M12 16.5h2"/>',
+  building: '<path d="M4 21V5l8-2v18M12 8l8 2v11M3 21h18"/><path d="M7 8h2M7 12h2M7 16h2M15 13h2M15 17h2"/>',
+  car: '<path d="M4 16v-3.5L6 8h12l2 4.5V16H4Z"/><circle cx="7.5" cy="16.5" r="1.8"/><circle cx="16.5" cy="16.5" r="1.8"/><path d="M4 12.5h16"/>',
+  cog: '<path d="M10.3 3h3.4l.5 2.4 1.7.9 2.2-1.1 2.4 2.4-1.1 2.2.9 1.7 2.4.5v3.4l-2.4.5-.9 1.7 1.1 2.2-2.4 2.4-2.2-1.1-1.7.9-.5 2.4h-3.4l-.5-2.4-1.7-.9-2.2 1.1-2.4-2.4 1.1-2.2-.9-1.7L3 13.7v-3.4l2.4-.5.9-1.7-1.1-2.2 2.4-2.4 2.2 1.1 1.7-.9z"/><circle cx="12" cy="12" r="3"/>',
+  target: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.8"/>',
+  leaf: '<path d="M5 19c0-8 5-13 15-14-1 10-6 15-14 15"/><path d="M5 19c3-4 6-6.5 9-8"/>',
+  award: '<circle cx="12" cy="9" r="5.5"/><path d="m8.5 13.5-1.5 7 5-2.5 5 2.5-1.5-7"/>',
+  helmet: '<path d="M4 16a8 8 0 0 1 16 0"/><path d="M3 16h18v2H3zM12 8V5M9.5 8.5 9 6M14.5 8.5 15 6"/>',
+} as const;
+
+const { name, size = 24, class: className, label } = Astro.props;
+const body = paths[name];
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  width={size}
+  height={size}
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={className}
+  aria-hidden={label ? undefined : 'true'}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  focusable="false"
+  set:html={body}
+/>

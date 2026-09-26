@@ -1,0 +1,68 @@
+---
+import { site } from '../data/site';
+---
+
+<div class="topbar">
+  <div class="container topbar__inner">
+    <p><strong>⚡ Fast 1-hour quotes!</strong> <span class="topbar__acc">ISO 17025 · NABL accredited · BIS approved</span></p>
+    <p>
+      Call us: <a href={site.phone.href}>{site.phone.display}</a>
+      <span class="topbar__sep" aria-hidden="true"></span>
+      <a href={`mailto:${site.email}`} class="topbar__mail">{site.email}</a>
+    </p>
+  </div>
+</div>
+
+<style>
+  .topbar {
+    background: var(--green-950);
+    color: rgb(255 255 255 / 78%);
+    font-size: 0.825rem;
+  }
+  .topbar__inner {
+    min-height: 38px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px 20px;
+    padding-block: 6px;
+  }
+  .topbar p {
+    margin: 0;
+  }
+  .topbar strong {
+    color: #ffc58f;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .topbar a {
+    color: #fff;
+    font-weight: 650;
+    text-decoration: none;
+  }
+  .topbar a:hover {
+    text-decoration: underline;
+  }
+  .topbar__sep {
+    display: inline-block;
+    width: 1px;
+    height: 12px;
+    margin: 0 10px;
+    background: rgb(255 255 255 / 25%);
+    vertical-align: middle;
+  }
+  @media (max-width: 760px) {
+    .topbar__acc,
+    .topbar__sep,
+    .topbar__mail {
+      display: none;
+    }
+  }
+  @media (max-width: 420px) {
+    .topbar__inner {
+      justify-content: center;
+      text-align: center;
+    }
+  }
+</style>

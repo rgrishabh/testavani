@@ -1,0 +1,232 @@
+---
+import { url } from '../utils/url';
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import heroImg from '../assets/images/metallurgical-analysis.jpg';
+import { site } from '../data/site';
+import { materialServices as materials } from '../data/services';
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <p class="eyebrow">Avani Ecocare Labs</p>
+      <h1 id="hero-title">Chemical, physical and mechanical testing for materials and products</h1>
+      <p class="hero__lead">
+        Comprehensive chemical, mechanical and metallurgical analysis for every material you work with — delivered
+        with precision and speed. An ISO 17025, NABL accredited and BIS approved materials testing laboratory in
+        Greater Noida for manufacturers, suppliers and OEMs.
+      </p>
+      <div class="btn-row">
+        <a href={url("/contact/#enquiry")} class="btn">Get in Touch <Icon name="arrow" /></a>
+        <a href={url("/services/")} class="btn btn--outline">Explore Our Services</a>
+      </div>
+      <p class="hero__quick">
+        <a href={site.whatsapp.href} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={18} />Enquire on WhatsApp</a>
+        <a href={site.phone.href}><Icon name="phone" size={18} />Call Now</a>
+        <span>⚡ Fast 1-hour quotes</span>
+      </p>
+      <ul class="hero__creds" aria-label="Accreditations and certifications">
+        <li><Icon name="standard" size={18} />ISO/IEC 17025</li>
+        <li><Icon name="award" size={18} />NABL Accredited</li>
+        <li><Icon name="check" size={18} />BIS Approved</li>
+        <li><Icon name="award" size={18} />ISO 9001:2015</li>
+        <li><Icon name="leaf" size={18} />ISO 14001:2015</li>
+        <li><Icon name="helmet" size={18} />ISO 45001:2018</li>
+      </ul>
+    </div>
+
+    <div class="hero__visual">
+      <div class="hero__frame">
+        <Image
+          src={heroImg}
+          alt="Metal specimen under test on a hardness testing machine in the laboratory"
+          widths={[480, 720, 1000]}
+          sizes="(max-width: 960px) 100vw, 560px"
+          loading="eager"
+          fetchpriority="high"
+          class="hero__img"
+        />
+        <span class="hero__tag">{site.tagline}</span>
+      </div>
+      <div class="hero__card">
+        <p class="hero__card-title">Materials we test</p>
+        <ul>
+          {
+            materials.map((m) => (
+              <li>
+                <a href={url(`/services/${m.slug}/`)}>
+                  <Icon name={m.icon} size={18} />
+                  {m.shortName}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding: clamp(40px, 6vw, 88px) 0 clamp(56px, 7vw, 96px);
+    background:
+      radial-gradient(900px 480px at 85% 10%, var(--green-50), transparent 70%),
+      linear-gradient(180deg, #fff 0%, var(--surface-alt) 100%);
+    overflow: hidden;
+  }
+  .hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: clamp(40px, 6vw, 88px);
+    align-items: center;
+  }
+  .hero h1 {
+    margin-bottom: 24px;
+  }
+  .hero__lead {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.225rem);
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 60ch;
+    margin-bottom: 32px;
+  }
+  .hero__quick {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 22px;
+    margin: 20px 0 0;
+    font-size: 0.925rem;
+    font-weight: 650;
+  }
+  .hero__quick a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    text-decoration: none;
+  }
+  .hero__quick a:hover {
+    text-decoration: underline;
+  }
+  .hero__quick span {
+    color: var(--orange-600);
+  }
+  .hero__creds {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-size: 0.9rem;
+    font-weight: 650;
+    color: var(--ink);
+  }
+  .hero__creds li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero__creds :global(svg) {
+    color: var(--green-600);
+  }
+  .hero__visual {
+    position: relative;
+    padding-bottom: 64px;
+  }
+  .hero__frame {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 5 / 4;
+    box-shadow: var(--shadow-lg);
+    background: var(--surface-stone);
+  }
+  .hero__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero__tag {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgb(7 35 26 / 78%);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    backdrop-filter: blur(6px);
+  }
+  .hero__card {
+    position: absolute;
+    left: -28px;
+    bottom: 0;
+    width: min(360px, 88%);
+    padding: 20px 22px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  .hero__card-title {
+    margin: 0 0 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .hero__card ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 12px;
+  }
+  .hero__card a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .hero__card a:hover {
+    color: var(--green-600);
+  }
+  .hero__card :global(svg) {
+    color: var(--green-600);
+    flex: none;
+  }
+  @media (max-width: 960px) {
+    .hero__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .hero__visual {
+      max-width: 620px;
+    }
+    .hero__card {
+      left: 16px;
+    }
+  }
+  @media (max-width: 480px) {
+    .hero__visual {
+      padding-bottom: 0;
+    }
+    .hero__card {
+      position: relative;
+      left: auto;
+      width: auto;
+      margin: -40px 12px 0;
+    }
+  }
+</style>

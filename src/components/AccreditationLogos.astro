@@ -1,0 +1,83 @@
+---
+import { Image } from 'astro:assets';
+import iso17025 from '../assets/accreditation/iso-17025.png';
+import nabl from '../assets/accreditation/nabl.png';
+import bis from '../assets/accreditation/bis.png';
+import iso from '../assets/accreditation/iso-9001.png';
+
+// "Certified & Approved By" from the previous site.
+const logos = [
+  { src: iso17025, alt: 'ISO 17025 logo', label: 'ISO 17025' },
+  { src: nabl, alt: 'NABL accreditation logo', label: 'NABL Accredited' },
+  { src: bis, alt: 'Bureau of Indian Standards logo', label: 'BIS Approved' },
+  { src: iso, alt: 'ISO logo', label: 'Global Standards' },
+];
+
+interface Props {
+  title?: string;
+}
+const { title = 'Certified & Approved By' } = Astro.props;
+---
+
+<div class="acc" data-reveal>
+  <p class="acc__title">{title}</p>
+  <ul>
+    {
+      logos.map((l) => (
+        <li>
+          <span class="acc__logo">
+            <Image src={l.src} alt={l.alt} height={72} densities={[1, 2]} />
+          </span>
+          <span class="acc__label">{l.label}</span>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .acc__title {
+    margin: 0 0 18px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .acc ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .acc li {
+    display: grid;
+    justify-items: center;
+    gap: 12px;
+    padding: 22px 16px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    text-align: center;
+  }
+  .acc__logo {
+    height: 72px;
+    display: grid;
+    place-items: center;
+  }
+  .acc__logo :global(img) {
+    height: 72px;
+    width: auto;
+    object-fit: contain;
+  }
+  .acc__label {
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 0.95rem;
+  }
+  @media (max-width: 760px) {
+    .acc ul {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

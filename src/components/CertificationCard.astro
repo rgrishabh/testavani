@@ -1,0 +1,141 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import type { Certification } from '../data/certifications';
+
+interface Props {
+  cert: Certification;
+  index: number;
+}
+const { cert, index } = Astro.props;
+---
+
+<article class="ccard" data-reveal data-delay={index * 80}>
+  <button type="button" class="ccard__thumb" data-cert-open={index}>
+    <Image
+      src={cert.image}
+      alt={cert.alt}
+      widths={[320, 480, 640]}
+      sizes="(max-width: 640px) 90vw, 360px"
+      class="ccard__img"
+    />
+    <span class="ccard__zoom" aria-hidden="true"><Icon name="expand" size={20} /></span>
+  </button>
+  <div class="ccard__body">
+    <p class="ccard__std">{cert.standard}</p>
+    <h3>{cert.system}</h3>
+    <dl>
+      <div><dt>Certificate No.</dt><dd>{cert.number}</dd></div>
+      <div><dt>Issued</dt><dd>{cert.issued}</dd></div>
+      <div><dt>Valid until</dt><dd>{cert.expires}</dd></div>
+    </dl>
+    <button type="button" class="text-link ccard__btn" data-cert-open={index}>
+      View Certificate <Icon name="arrow" size={16} />
+    </button>
+  </div>
+</article>
+
+<style>
+  .ccard {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition:
+      box-shadow 0.3s var(--ease),
+      transform 0.3s var(--ease);
+  }
+  .ccard:hover {
+    box-shadow: var(--shadow);
+    transform: translateY(-3px);
+  }
+  .ccard__thumb {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 20px 20px 0;
+    border: 0;
+    background: var(--surface-stone);
+    cursor: zoom-in;
+    overflow: hidden;
+  }
+  .ccard__img {
+    width: 100%;
+    aspect-ratio: 1124 / 1600;
+    height: auto;
+    object-fit: cover;
+    object-position: top;
+    max-height: 300px;
+    box-shadow: 0 -2px 24px rgb(0 0 0 / 12%);
+    transition: transform 0.5s var(--ease);
+  }
+  .ccard__thumb:hover .ccard__img {
+    transform: translateY(-4px);
+  }
+  .ccard__zoom {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 92%);
+    color: var(--green-700);
+    box-shadow: var(--shadow-sm);
+  }
+  .ccard__body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .ccard__std {
+    margin: 0 0 4px;
+    font-size: 1.35rem;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    color: var(--green-700);
+  }
+  .ccard h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  dl {
+    margin: 0 0 20px;
+    display: grid;
+    gap: 6px;
+    font-size: 0.9rem;
+  }
+  dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px dashed var(--line);
+  }
+  dt {
+    color: var(--muted);
+  }
+  dd {
+    margin: 0;
+    font-weight: 650;
+    color: var(--ink);
+    text-align: right;
+  }
+  .ccard__btn {
+    margin-top: auto;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-weight: 650;
+    cursor: pointer;
+    align-self: flex-start;
+  }
+</style>

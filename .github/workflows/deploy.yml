@@ -1,0 +1,46 @@
+name: Deploy to GitHub Pages
+
+# Builds the site and publishes dist/ to the gh-pages branch.
+# Without a CUSTOM_DOMAIN variable it deploys as a project site
+# (https://<owner>.github.io/<repo>/, noindex). Set the repository variable
+# CUSTOM_DOMAIN=avaniecocare.com for the production domain.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build
+        run: npm run build
+        env:
+          SITE_URL: ${{ vars.CUSTOM_DOMAIN && format('https://{0}', vars.CUSTOM_DOMAIN) || format('https://{0}.github.io', github.repository_owner) }}
+          BASE_PATH: ${{ vars.CUSTOM_DOMAIN && '/' || format('/{0}', github.event.repository.name) }}
+          # Form delivery — add as a repository variable or secret (neither value is sensitive).
+          PUBLIC_WEB3FORMS_ACCESS_KEY: ${{ vars.PUBLIC_WEB3FORMS_ACCESS_KEY || secrets.PUBLIC_WEB3FORMS_ACCESS_KEY }}
+          PUBLIC_FORMSUBMIT_TARGET: ${{ vars.PUBLIC_FORMSUBMIT_TARGET || secrets.PUBLIC_FORMSUBMIT_TARGET }}
+      - name: Publish to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          cname: ${{ vars.CUSTOM_DOMAIN }}
+          force_orphan: true
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com

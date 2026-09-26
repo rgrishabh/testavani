@@ -1,0 +1,198 @@
+---
+import Icon from './Icon.astro';
+import ContactForm from './ContactForm.astro';
+import { site } from '../data/site';
+
+interface Props {
+  headingLevel?: 'h1' | 'h2';
+  title?: string;
+}
+const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
+---
+
+<section class="section contact" id="enquiry" aria-labelledby="contact-title">
+  <div class="container contact__grid">
+    <div class="contact__info" data-reveal>
+      <p class="eyebrow">Contact</p>
+      <H id="contact-title">{title}</H>
+      <p class="lead">
+        Visit our laboratory, call us, or reach out on WhatsApp — we respond within 1 hour. Tell us about your
+        material, product and testing requirement and we will send the recommended tests, applicable standard and a
+        quotation.
+      </p>
+
+      <ul class="contact__list">
+        <li>
+          <span class="contact__icon"><Icon name="mail" /></span>
+          <div>
+            <p class="contact__label">Email</p>
+            <a href={`mailto:${site.email}`} class="contact__value">{site.email}</a>
+          </div>
+        </li>
+        <li>
+          <span class="contact__icon"><Icon name="phone" /></span>
+          <div>
+            <p class="contact__label">Call us · Fast 1-hour quotes</p>
+            <a href={site.phone.href} class="contact__value">{site.phone.display}</a>
+            <a href={site.whatsapp.href} class="contact__sub" target="_blank" rel="noopener noreferrer">
+              Chat on WhatsApp <Icon name="arrow-up-right" size={14} />
+            </a>
+          </div>
+        </li>
+        <li>
+          <span class="contact__icon"><Icon name="pin" /></span>
+          <div>
+            <p class="contact__label">Laboratory</p>
+            <address class="contact__value contact__addr">
+              {site.address.lines.map((l) => <span>{l}</span>)}
+            </address>
+            <a href={site.address.mapsHref} class="contact__sub" target="_blank" rel="noopener noreferrer">
+              Get directions <Icon name="arrow-up-right" size={14} />
+            </a>
+          </div>
+        </li>
+        <li>
+          <span class="contact__icon"><Icon name="clock" /></span>
+          <div>
+            <p class="contact__label">Working hours</p>
+            <p class="contact__value">{site.hours.display}</p>
+            <p class="contact__status" data-open-status hidden></p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="contact__form" data-reveal data-delay="100">
+      <h3 class="contact__form-title">Enquiry form</h3>
+      <ContactForm />
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    background: var(--surface-alt);
+  }
+  .contact__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: clamp(40px, 6vw, 80px);
+    align-items: start;
+  }
+  .contact__list {
+    list-style: none;
+    display: grid;
+    gap: 24px;
+    margin-top: 36px;
+  }
+  .contact__list li {
+    display: flex;
+    gap: 16px;
+    min-width: 0;
+  }
+  .contact__list li > div {
+    min-width: 0;
+  }
+  .contact__icon {
+    flex: none;
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: #fff;
+    border: 1px solid var(--line);
+    color: var(--green-600);
+  }
+  .contact__label {
+    margin: 0 0 2px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .contact__value {
+    display: block;
+    margin: 0;
+    font-weight: 650;
+    color: var(--ink);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    font-style: normal;
+  }
+  a.contact__value {
+    font-size: 1.1rem;
+    color: var(--green-700);
+  }
+  a.contact__value:hover {
+    text-decoration: underline;
+  }
+  .contact__addr {
+    display: grid;
+    font-weight: 500;
+    line-height: 1.55;
+  }
+  .contact__sub {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 6px;
+    font-size: 0.9rem;
+    font-weight: 650;
+  }
+  .contact__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0 0;
+    font-size: 0.875rem;
+    font-weight: 650;
+    color: var(--muted);
+  }
+  .contact__status::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--line-strong);
+  }
+  .contact__status.is-open {
+    color: var(--green-700);
+  }
+  .contact__status.is-open::before {
+    background: #1f9d55;
+    box-shadow: 0 0 0 4px rgb(31 157 85 / 18%);
+  }
+  .contact__form {
+    padding: clamp(24px, 4vw, 44px);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+  }
+  .contact__form-title {
+    font-size: 1.25rem;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 960px) {
+    .contact__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
+
+<script>
+  // Open/closed indicator based on India Standard Time (Mon–Sat, 9:00–18:00).
+  const el = document.querySelector<HTMLElement>('[data-open-status]');
+  if (el) {
+    const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kolkata', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' })
+      .formatToParts(new Date())
+      .reduce<Record<string, string>>((acc, p) => ((acc[p.type] = p.value), acc), {});
+    const mins = Number(parts.hour) * 60 + Number(parts.minute);
+    const open = parts.weekday !== 'Sun' && mins >= 540 && mins < 1080;
+    el.textContent = open ? 'Currently open' : 'Currently closed — send an enquiry and we will reply when we open';
+    el.classList.toggle('is-open', open);
+    el.hidden = false;
+  }
+</script>

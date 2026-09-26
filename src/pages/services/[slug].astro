@@ -1,0 +1,311 @@
+---
+import { url } from '../../utils/url';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import ServiceGrid from '../../components/ServiceGrid.astro';
+import StandardsStrip from '../../components/StandardsStrip.astro';
+import FAQ from '../../components/FAQ.astro';
+import CTASection from '../../components/CTASection.astro';
+import Icon from '../../components/Icon.astro';
+import { services, type Service } from '../../data/services';
+import { purposes, site, whyChoose } from '../../data/site';
+import { breadcrumbSchema, faqSchema } from '../../data/schema';
+
+export function getStaticPaths() {
+  return services.map((service) => ({ params: { slug: service.slug }, props: { service } }));
+}
+
+interface Props {
+  service: Service;
+}
+const { service } = Astro.props;
+const path = `/services/${service.slug}/`;
+
+const commonFaqs = [
+  {
+    q: 'How long does testing take?',
+    a: 'Most standard tests are completed within 3–5 business days. Expedited testing is available within 24–48 hours for urgent requirements.',
+  },
+  {
+    q: 'Do you issue NABL-accredited reports?',
+    a: 'Yes. All applicable tests are performed in our NABL ISO/IEC 17025 accredited laboratory. Reports are globally recognised and accepted by regulatory bodies.',
+  },
+  {
+    q: 'How do I send a sample?',
+    a: `You can drop off samples at our lab in Greater Noida or courier them to us. Call or WhatsApp us at ${site.phone.display} to arrange pickup or get our lab address.`,
+  },
+];
+const faqs = [...service.faqs, ...commonFaqs];
+
+const serviceSchema = {
+  '@type': 'Service',
+  name: service.name,
+  serviceType: service.name,
+  description: service.seoDescription,
+  url: `${site.url}${path}`,
+  provider: { '@id': `${site.url}/#organization` },
+  areaServed: { '@type': 'Country', name: 'India' },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: `${service.name} — tests`,
+    itemListElement: service.tests.map((t) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: t } })),
+  },
+};
+
+const benefits = whyChoose.filter((_, i) => [1, 4, 5, 6].includes(i));
+---
+
+<BaseLayout
+  title={service.seoTitle}
+  description={service.seoDescription}
+  schema={[
+    breadcrumbSchema([
+      { name: 'Services', path: '/services/' },
+      { name: service.name, path },
+    ]),
+    serviceSchema,
+    faqSchema(faqs),
+  ]}
+>
+  <PageHero
+    crumbs={[{ label: 'Services', href: '/services/' }, { label: service.name }]}
+    eyebrow="Testing Services"
+    title={service.name}
+    lead={service.summary}
+    image={service.image}
+    imageAlt={service.imageAlt}
+  >
+    <div class="btn-row">
+      <a href={url(`/contact/?service=${service.slug}#enquiry`)} class="btn">Request a Quote <Icon name="arrow" /></a>
+      <a href={site.phone.href} class="btn btn--outline"><Icon name="phone" /> Talk to Our Team</a>
+    </div>
+  </PageHero>
+
+  <section class="section" aria-labelledby="overview-title">
+    <div class="container detail">
+      <div class="detail__main">
+        <div data-reveal>
+          <p class="eyebrow">Overview</p>
+          <h2 id="overview-title">{service.name} at Avani Ecocare Labs</h2>
+          {service.overview.map((p) => <p>{p}</p>)}
+        </div>
+
+        <div class="tests" data-reveal>
+          <h2 class="h3">Key tests and capabilities</h2>
+          <ul class="tests__list">
+            {
+              service.tests.map((t) => (
+                <li>
+                  <Icon name="check" size={18} />
+                  <span>{t}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+
+      <aside class="detail__side" aria-label="Service summary">
+        <div class="side-card" data-reveal>
+          <h2 class="h3">{service.scopeLabel}</h2>
+          <ul class="check-list">{service.scope.map((s) => <li>{s}</li>)}</ul>
+        </div>
+        <div class="side-card" data-reveal>
+          <h2 class="h3">Applications</h2>
+          <ul class="chips">{purposes.map((p) => <li>{p}</li>)}</ul>
+        </div>
+        <div class="side-card side-card--dark" data-reveal>
+          <h2 class="h3">Need this test?</h2>
+          <p>Talk to our experts today and get a quote within 1 hour.</p>
+          <a href={url(`/contact/?service=${service.slug}#enquiry`)} class="btn btn--light btn--sm">Send an Enquiry</a>
+          <a href={site.whatsapp.href} class="side-card__mail" target="_blank" rel="noopener noreferrer">WhatsApp us</a>
+          <a href={`mailto:${site.email}`} class="side-card__mail">{site.email}</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="benefits-title">
+    <div class="container">
+      <SectionHeader id="benefits-title" eyebrow="Benefits" title="Why test with us" />
+      <ul class="benefits">
+        {
+          benefits.map((b, i) => (
+            <li data-reveal data-delay={i * 70}>
+              <h3>{b.title}</h3>
+              <p>{b.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="std-wrap" data-reveal>
+        <h3>Standards and certifications</h3>
+        <StandardsStrip />
+        <p class="std-note">
+          Tests are performed in ISO 17025, NABL accredited and BIS approved laboratories. Avani Ecocare Labs Pvt. Ltd.
+          is also certified to ISO 9001:2015, ISO 14001:2015 and ISO 45001:2018.{' '}
+          <a href={url("/certifications/")}>View certificates</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="sfaq-title">
+    <div class="container faq-wrap">
+      <SectionHeader id="sfaq-title" eyebrow="FAQ" title={`${service.shortName}: common questions`} />
+      <FAQ items={faqs} group={`faq-${service.slug}`} />
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="related-title">
+    <div class="container">
+      <SectionHeader id="related-title" eyebrow="More services" title="Related testing services" />
+      <ServiceGrid exclude={service.slug} limit={3} group={service.group} />
+    </div>
+  </section>
+
+  <CTASection title={`Request a quote for ${service.name.toLowerCase()}`} primaryHref={`/contact/?service=${service.slug}#enquiry`} />
+</BaseLayout>
+
+<style>
+  .h3 {
+    font-size: clamp(1.125rem, 1.05rem + 0.3vw, 1.3rem);
+    letter-spacing: -0.01em;
+  }
+  .detail {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: clamp(40px, 5vw, 72px);
+    align-items: start;
+  }
+  .detail__main > div > p:not(.eyebrow) {
+    font-size: 1.075rem;
+  }
+  .tests {
+    margin-top: 48px;
+  }
+  .tests__list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 28px;
+    margin-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .tests__list li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    font-weight: 550;
+    color: var(--ink);
+  }
+  .tests__list :global(svg) {
+    flex: none;
+    margin-top: 4px;
+    color: var(--green-600);
+  }
+  .detail__side {
+    display: grid;
+    gap: 20px;
+    position: sticky;
+    top: calc(var(--header-h) + 24px);
+  }
+  .side-card {
+    padding: 26px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+  }
+  .side-card h2 {
+    margin-bottom: 16px;
+  }
+  .side-card--dark {
+    background: var(--green-800);
+    border-color: var(--green-800);
+    color: rgb(255 255 255 / 78%);
+  }
+  .side-card--dark h2 {
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .side-card__mail {
+    display: block;
+    margin-top: 14px;
+    color: #9fd4b6;
+    font-weight: 650;
+    overflow-wrap: anywhere;
+  }
+  .side-card__mail:hover {
+    color: #fff;
+  }
+  .chips {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chips li {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--green-50);
+    border: 1px solid var(--green-100);
+    color: var(--green-800);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .benefits {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .benefits li {
+    padding: 26px 24px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--green-600);
+    border-radius: var(--radius-sm);
+  }
+  .benefits h3 {
+    font-size: 1.05rem;
+  }
+  .benefits p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+  .std-wrap {
+    margin-top: 56px;
+  }
+  .std-wrap h3 {
+    margin-bottom: 18px;
+  }
+  .std-note {
+    margin: 18px 0 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .faq-wrap {
+    max-width: 900px;
+  }
+  @media (max-width: 1000px) {
+    .detail {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .detail__side {
+      position: static;
+    }
+    .benefits {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 600px) {
+    .tests__list,
+    .benefits {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

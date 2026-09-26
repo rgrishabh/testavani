@@ -1,0 +1,83 @@
+---
+import Icon from './Icon.astro';
+import { url } from '../utils/url';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  text?: string;
+  primaryLabel?: string;
+  primaryHref?: string;
+}
+const {
+  title = 'Ready to get started?',
+  text = 'Talk to our experts today and get a quote within 1 hour.',
+  primaryLabel = 'Request a Quote',
+  primaryHref = '/contact/#enquiry',
+} = Astro.props;
+---
+
+<section class="cta" aria-labelledby="cta-title">
+  <div class="container">
+    <div class="cta__box" data-reveal>
+      <div class="cta__copy">
+        <h2 id="cta-title">{title}</h2>
+        <p>{text}</p>
+      </div>
+      <div class="cta__actions">
+        <a href={url(primaryHref)} class="btn btn--light">{primaryLabel} <Icon name="arrow" /></a>
+        <a href={site.whatsapp.href} class="btn btn--ghost-light" target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" /> WhatsApp Us</a>
+        <a href={site.phone.href} class="btn btn--ghost-light"><Icon name="phone" /> Call Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    padding-block: clamp(56px, 7vw, 96px);
+  }
+  .cta__box {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) auto;
+    align-items: center;
+    gap: 32px 48px;
+    padding: clamp(32px, 5vw, 64px);
+    border-radius: var(--radius-lg);
+    background: var(--green-700);
+    color: rgb(255 255 255 / 80%);
+  }
+  .cta__box::after {
+    content: '';
+    position: absolute;
+    right: -120px;
+    top: -120px;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    border: 56px solid rgb(255 255 255 / 5%);
+    pointer-events: none;
+  }
+  .cta h2 {
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .cta p {
+    margin: 0;
+    max-width: 58ch;
+  }
+  .cta__actions {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  @media (max-width: 900px) {
+    .cta__box {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

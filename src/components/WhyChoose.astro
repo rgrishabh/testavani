@@ -1,0 +1,90 @@
+---
+import { url } from '../utils/url';
+import { whyChoose } from '../data/site';
+---
+
+<section class="section section--dark why" aria-labelledby="why-title">
+  <div class="container why__grid">
+    <div class="why__intro" data-reveal>
+      <p class="eyebrow">Why Avani Ecocare</p>
+      <h2 id="why-title">Why choose Avani Ecocare Labs</h2>
+      <p class="lead">
+        One laboratory for the chemical, physical and mechanical tests your materials and products need — with
+        technical guidance from the first conversation to the final report.
+      </p>
+      <a href={url("/contact/#enquiry")} class="btn btn--light">Talk to Our Team</a>
+    </div>
+    <ol class="why__list">
+      {
+        whyChoose.map((w, i) => (
+          <li data-reveal data-delay={(i % 2) * 80}>
+            <span class="why__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{w.title}</h3>
+            <p>{w.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .why {
+    background:
+      radial-gradient(700px 400px at 0% 0%, rgb(28 134 86 / 22%), transparent 70%),
+      var(--green-900);
+  }
+  .why__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(40px, 6vw, 96px);
+    align-items: start;
+  }
+  .why__intro {
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+  }
+  .why__intro .lead {
+    margin-bottom: 32px;
+  }
+  .why__list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 40px;
+  }
+  .why__list li {
+    padding: 28px 0;
+    border-top: 1px solid rgb(255 255 255 / 14%);
+  }
+  .why__num {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--orange-500);
+  }
+  .why__list h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+  .why__list p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: rgb(255 255 255 / 68%);
+  }
+  @media (max-width: 960px) {
+    .why__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .why__intro {
+      position: static;
+    }
+  }
+  @media (max-width: 600px) {
+    .why__list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

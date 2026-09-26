@@ -1,0 +1,167 @@
+---
+import { url } from '../utils/url';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import IndustryCard from '../components/IndustryCard.astro';
+import CTASection from '../components/CTASection.astro';
+import Icon from '../components/Icon.astro';
+import { industries, customers, applications } from '../data/industries';
+import { breadcrumbSchema } from '../data/schema';
+---
+
+<BaseLayout
+  title="Industries & Applications"
+  description="Materials testing for automotive, aerospace, construction, pharmaceuticals, electronics, oil & gas, manufacturing and plastics & polymers — for manufacturers, suppliers and OEMs."
+  schema={[breadcrumbSchema([{ name: 'Industries', path: '/industries/' }])]}
+>
+  <PageHero
+    crumbs={[{ label: 'Industries' }]}
+    eyebrow="Industries & Applications"
+    title="Trusted across every sector"
+    lead="From automotive and aerospace to electronics and construction — we test the materials that power every industry, supporting manufacturers, suppliers and OEMs."
+  />
+
+  <section class="section" aria-labelledby="who-title">
+    <div class="container">
+      <SectionHeader id="who-title" eyebrow="Who we work with" title="Manufacturers, suppliers and OEMs" />
+      <ul class="who">
+        {
+          customers.map((c, i) => (
+            <li data-reveal data-delay={i * 80}>
+              <span class="who__icon"><Icon name={c.icon} size={26} /></span>
+              <div>
+                <h3>{c.name}</h3>
+                <p>{c.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="sectors-title">
+    <div class="container">
+      <SectionHeader id="sectors-title" eyebrow="Sectors" title="Industries we serve" lead="Each sector links to the testing services most relevant to it." />
+      <div class="igrid">
+        {industries.map((ind, i) => <IndustryCard {...ind} delay={(i % 4) * 70} />)}
+      </div>
+      <p class="note" data-reveal>
+        <strong>Don’t see your industry?</strong> We test materials across all sectors.{' '}
+        <a href={url("/contact/#enquiry")}>Contact us with your requirements</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="apps-title">
+    <div class="container">
+      <SectionHeader id="apps-title" eyebrow="Applications" title="What our testing supports" />
+      <ol class="apps">
+        {
+          applications.map((a, i) => (
+            <li data-reveal data-delay={i * 60}>
+              <span class="apps__icon"><Icon name={a.icon} size={22} /></span>
+              <h3>{a.name}</h3>
+              <p>{a.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .who {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .who li {
+    display: flex;
+    gap: 18px;
+    padding: 28px;
+    border-radius: var(--radius);
+    background: var(--green-900);
+    color: rgb(255 255 255 / 75%);
+  }
+  .who h3 {
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .who p {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+  .who__icon {
+    flex: none;
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: rgb(255 255 255 / 8%);
+    color: #9fd4b6;
+  }
+  .igrid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .note {
+    margin: 32px 0 0;
+    color: var(--muted);
+  }
+  .apps {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .apps li {
+    padding: 24px 22px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .apps__icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 18px;
+    border-radius: 12px;
+    background: var(--green-50);
+    color: var(--green-600);
+  }
+  .apps h3 {
+    font-size: 1.05rem;
+  }
+  .apps p {
+    margin: 0;
+    font-size: 0.925rem;
+    color: var(--muted);
+  }
+  @media (max-width: 1080px) {
+    .apps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .who,
+    .igrid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  @media (min-width: 700px) and (max-width: 1080px) {
+    .igrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 560px) {
+    .apps {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

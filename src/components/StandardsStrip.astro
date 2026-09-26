@@ -1,0 +1,58 @@
+---
+import { standards } from '../data/site';
+---
+
+<ul class="std" aria-label="Testing standards">
+  {
+    standards.map((s) => (
+      <li>
+        <strong>{s.code}</strong>
+        <span>{s.name}</span>
+      </li>
+    ))
+  }
+</ul>
+<p class="std__note">All our tests adhere to globally recognised standards, ensuring your materials meet international requirements. Customer-specified methods are also supported.</p>
+
+<style>
+  .std {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .std li {
+    display: grid;
+    gap: 4px;
+    padding: 20px 22px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+  }
+  .std strong {
+    font-size: 1.25rem;
+    font-weight: 750;
+    letter-spacing: -0.01em;
+    color: var(--green-700);
+  }
+  .std span {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  .std__note {
+    margin: 16px 0 0;
+    font-size: 0.925rem;
+    color: var(--muted);
+  }
+  @media (max-width: 900px) {
+    .std {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 420px) {
+    .std {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

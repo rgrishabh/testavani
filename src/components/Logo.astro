@@ -1,0 +1,62 @@
+---
+import { url } from '../utils/url';
+import { Image } from 'astro:assets';
+import mark from '../assets/brand/logo-mark.png';
+
+interface Props {
+  variant?: 'dark' | 'light';
+}
+const { variant = 'dark' } = Astro.props;
+---
+
+<a href={url("/")} class:list={['logo', `logo--${variant}`]}>
+  <Image src={mark} alt="" width={44} height={44} densities={[1, 2]} loading="eager" class="logo__mark" />
+  <span class="logo__text">
+    <span class="logo__name">Avani Ecocare</span>
+    <span class="logo__sub">Labs Pvt. Ltd.</span>
+  </span>
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex: none;
+  }
+  .logo__mark {
+    width: 44px;
+    height: 44px;
+  }
+  .logo__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+  .logo__name {
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--green-700);
+  }
+  .logo__sub {
+    margin-top: 4px;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .logo--light .logo__name {
+    color: #fff;
+  }
+  .logo--light .logo__sub {
+    color: rgb(255 255 255 / 60%);
+  }
+  .logo--light .logo__mark {
+    background: #fff;
+    border-radius: 12px;
+    padding: 3px;
+  }
+</style>

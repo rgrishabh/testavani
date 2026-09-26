@@ -1,0 +1,46 @@
+---
+import { url } from '../utils/url';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout title="Terms & Conditions" description="Terms and conditions for using the Avani Ecocare Labs Pvt. Ltd. website, avaniecocare.com.">
+  <PageHero crumbs={[{ label: 'Terms & Conditions' }]} title="Terms & Conditions" lead="Last updated: 26 September 2026" />
+  <section class="section">
+    <div class="container prose">
+      <p>
+        These terms govern your use of avaniecocare.com, operated by {site.legalName}. By using this website you agree
+        to these terms.
+      </p>
+      <h2>Website content</h2>
+      <p>
+        The information on this website is provided for general information about our testing services. It does not
+        constitute a quotation, test report or technical advice for a specific product. Scope, methods, timelines and
+        fees for any testing work are confirmed in writing before work begins.
+      </p>
+      <h2>Test reports</h2>
+      <p>
+        Test results relate only to the samples tested. Test reports are issued under the terms agreed for each
+        engagement and may not be reproduced except in full without our written approval.
+      </p>
+      <h2>Intellectual property</h2>
+      <p>
+        The Avani Ecocare name, logo and website content belong to {site.legalName} unless stated otherwise. Certain
+        photographs are used under Creative Commons licences — see <a href={url("/image-credits/")}>Image Credits</a>.
+      </p>
+      <h2>External links</h2>
+      <p>We are not responsible for the content of third-party websites linked from this site.</p>
+      <h2>Liability</h2>
+      <p>
+        We take care to keep the information on this website accurate, but we do not guarantee that it is complete or
+        current. To the extent permitted by law, we are not liable for any loss arising from use of this website.
+      </p>
+      <h2>Governing law</h2>
+      <p>These terms are governed by the laws of India.</p>
+      <h2>Contact</h2>
+      <p>Questions about these terms can be sent to <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+      <p class="note">These terms are a general template and should be reviewed by the company before publication.</p>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,328 @@
+---
+import { getImage } from 'astro:assets';
+import Icon from './Icon.astro';
+import { certifications } from '../data/certifications';
+
+// Full-resolution images for the lightbox (original size, WebP), loaded only on open.
+const slides = await Promise.all(
+  certifications.map(async (c) => {
+    const large = await getImage({ src: c.image, width: c.image.width, format: 'webp', quality: 90 });
+    const original = await getImage({ src: c.image, width: c.image.width, format: 'jpg', quality: 92 });
+    return {
+      src: large.src,
+      original: original.src,
+      width: c.image.width,
+      height: c.image.height,
+      alt: c.alt,
+      title: `${c.standard} — ${c.system}`,
+      number: c.number,
+    };
+  }),
+);
+---
+
+<dialog class="cmodal" data-cert-modal aria-labelledby="cmodal-title">
+  <div class="cmodal__bar">
+    <div class="cmodal__meta">
+      <h2 id="cmodal-title" data-cert-title>Certificate</h2>
+      <p data-cert-count aria-live="polite"></p>
+    </div>
+    <div class="cmodal__tools">
+      <button type="button" data-cert-zoom-out aria-label="Zoom out"><Icon name="zoom-out" size={20} /></button>
+      <button type="button" data-cert-zoom-reset class="cmodal__pct" aria-label="Reset zoom">100%</button>
+      <button type="button" data-cert-zoom-in aria-label="Zoom in"><Icon name="zoom-in" size={20} /></button>
+      <a href="#" data-cert-original target="_blank" rel="noopener" aria-label="Open full-size image in a new tab"
+        ><Icon name="external" size={20} /></a
+      >
+      <button type="button" data-cert-close aria-label="Close certificate viewer" class="cmodal__close"
+        ><Icon name="close" size={22} /></button
+      >
+    </div>
+  </div>
+
+  <div class="cmodal__stage" data-cert-stage tabindex="0" aria-label="Certificate image. Use arrow keys to change certificate, plus and minus to zoom.">
+    <img data-cert-img alt="" decoding="async" />
+  </div>
+
+  <button type="button" class="cmodal__nav cmodal__nav--prev" data-cert-prev aria-label="Previous certificate"
+    ><Icon name="chevron-left" size={26} /></button
+  >
+  <button type="button" class="cmodal__nav cmodal__nav--next" data-cert-next aria-label="Next certificate"
+    ><Icon name="chevron-right" size={26} /></button
+  >
+</dialog>
+
+<script type="application/json" data-cert-slides set:html={JSON.stringify(slides)} />
+
+<style>
+  .cmodal {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: rgb(7 20 15 / 98%);
+    color: #fff;
+    overflow: hidden;
+    opacity: 0;
+    transition:
+      opacity 0.25s var(--ease),
+      overlay 0.25s allow-discrete,
+      display 0.25s allow-discrete;
+  }
+  .cmodal[open] {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    opacity: 1;
+  }
+  @starting-style {
+    .cmodal[open] {
+      opacity: 0;
+    }
+  }
+  .cmodal::backdrop {
+    background: rgb(0 0 0 / 60%);
+  }
+  .cmodal__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px clamp(12px, 3vw, 24px);
+    border-bottom: 1px solid rgb(255 255 255 / 10%);
+  }
+  .cmodal__meta {
+    min-width: 0;
+  }
+  .cmodal h2 {
+    color: #fff;
+    font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.1rem);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .cmodal__meta p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: rgb(255 255 255 / 60%);
+  }
+  .cmodal__tools {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: none;
+  }
+  .cmodal__tools button,
+  .cmodal__tools a {
+    min-width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    padding: 0 8px;
+    border-radius: 10px;
+    border: 1px solid rgb(255 255 255 / 16%);
+    background: rgb(255 255 255 / 6%);
+    color: #fff;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 650;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .cmodal__tools button:hover,
+  .cmodal__tools a:hover {
+    background: rgb(255 255 255 / 14%);
+  }
+  .cmodal__close {
+    background: #fff !important;
+    color: var(--green-900) !important;
+  }
+  .cmodal__stage {
+    position: relative;
+    overflow: auto;
+    display: grid;
+    place-items: center;
+    padding: 16px clamp(8px, 7vw, 88px);
+    cursor: grab;
+    overscroll-behavior: contain;
+    touch-action: pan-x pan-y pinch-zoom;
+  }
+  .cmodal__stage.is-dragging {
+    cursor: grabbing;
+    user-select: none;
+  }
+  .cmodal__stage:focus-visible {
+    outline-offset: -4px;
+  }
+  .cmodal__stage img {
+    max-width: none;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 20px 60px rgb(0 0 0 / 50%);
+    background: #fff;
+    transition: width 0.2s var(--ease);
+  }
+  .cmodal__nav {
+    position: absolute;
+    top: 50%;
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 1px solid rgb(255 255 255 / 20%);
+    background: rgb(7 35 26 / 80%);
+    color: #fff;
+    cursor: pointer;
+    transform: translateY(-50%);
+  }
+  .cmodal__nav:hover {
+    background: var(--green-600);
+  }
+  .cmodal__nav--prev {
+    left: clamp(8px, 2vw, 20px);
+  }
+  .cmodal__nav--next {
+    right: clamp(8px, 2vw, 20px);
+  }
+  @media (max-width: 640px) {
+    .cmodal__nav {
+      top: auto;
+      bottom: 16px;
+      transform: none;
+      width: 46px;
+      height: 46px;
+    }
+    .cmodal__stage {
+      padding-bottom: 80px;
+    }
+    .cmodal__tools [data-cert-zoom-reset],
+    .cmodal__tools [data-cert-original] {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  type Slide = { src: string; original: string; width: number; height: number; alt: string; title: string; number: string };
+
+  const dialog = document.querySelector<HTMLDialogElement>('[data-cert-modal]');
+  const data = document.querySelector('[data-cert-slides]');
+
+  if (dialog && data) {
+    const slides: Slide[] = JSON.parse(data.textContent || '[]');
+    const img = dialog.querySelector<HTMLImageElement>('[data-cert-img]')!;
+    const stage = dialog.querySelector<HTMLElement>('[data-cert-stage]')!;
+    const title = dialog.querySelector<HTMLElement>('[data-cert-title]')!;
+    const count = dialog.querySelector<HTMLElement>('[data-cert-count]')!;
+    const pct = dialog.querySelector<HTMLButtonElement>('[data-cert-zoom-reset]')!;
+    const original = dialog.querySelector<HTMLAnchorElement>('[data-cert-original]')!;
+    const ZOOMS = [1, 1.5, 2, 3];
+    let index = 0;
+    let zoom = 0;
+
+    const fitWidth = (s: Slide) => {
+      const cs = getComputedStyle(stage);
+      const availW = stage.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      const availH = stage.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+      return Math.max(160, Math.min(availW, (availH * s.width) / s.height, s.width));
+    };
+
+    const applyZoom = () => {
+      const s = slides[index];
+      const w = fitWidth(s) * ZOOMS[zoom];
+      img.style.width = `${Math.round(w)}px`;
+      stage.style.placeItems = zoom === 0 ? 'center' : 'start';
+      pct.textContent = `${Math.round(ZOOMS[zoom] * 100)}%`;
+    };
+
+    const show = (i: number) => {
+      index = (i + slides.length) % slides.length;
+      const s = slides[index];
+      zoom = 0;
+      img.src = s.src;
+      img.width = s.width;
+      img.height = s.height;
+      img.alt = s.alt;
+      title.textContent = s.title;
+      count.textContent = `Certificate ${index + 1} of ${slides.length} · No. ${s.number}`;
+      original.href = s.original;
+      applyZoom();
+      stage.scrollTo(0, 0);
+    };
+
+    const setZoom = (z: number) => {
+      const prev = ZOOMS[zoom];
+      zoom = Math.max(0, Math.min(ZOOMS.length - 1, z));
+      const ratio = ZOOMS[zoom] / prev;
+      const cx = stage.scrollLeft + stage.clientWidth / 2;
+      const cy = stage.scrollTop + stage.clientHeight / 2;
+      applyZoom();
+      stage.scrollTo(cx * ratio - stage.clientWidth / 2, cy * ratio - stage.clientHeight / 2);
+    };
+
+    document.querySelectorAll<HTMLElement>('[data-cert-open]').forEach((btn) =>
+      btn.addEventListener('click', () => {
+        dialog.showModal();
+        document.documentElement.style.overflow = 'hidden';
+        show(Number(btn.dataset.certOpen));
+        stage.focus({ preventScroll: true });
+      }),
+    );
+
+    dialog.querySelector('[data-cert-close]')!.addEventListener('click', () => dialog.close());
+    dialog.querySelector('[data-cert-prev]')!.addEventListener('click', () => show(index - 1));
+    dialog.querySelector('[data-cert-next]')!.addEventListener('click', () => show(index + 1));
+    dialog.querySelector('[data-cert-zoom-in]')!.addEventListener('click', () => setZoom(zoom + 1));
+    dialog.querySelector('[data-cert-zoom-out]')!.addEventListener('click', () => setZoom(zoom - 1));
+    pct.addEventListener('click', () => setZoom(0));
+    img.addEventListener('click', () => {
+      if (!moved) setZoom(zoom === ZOOMS.length - 1 ? 0 : zoom + 1);
+    });
+
+    dialog.addEventListener('close', () => {
+      document.documentElement.style.overflow = '';
+    });
+    dialog.addEventListener('click', (e) => {
+      if (e.target === stage && zoom === 0) dialog.close();
+    });
+    dialog.addEventListener('keydown', (e) => {
+      const tag = (e.target as HTMLElement).tagName;
+      if (e.key === 'ArrowRight' && (zoom === 0 || tag !== 'DIV')) show(index + 1);
+      else if (e.key === 'ArrowLeft' && (zoom === 0 || tag !== 'DIV')) show(index - 1);
+      else if (e.key === '+' || e.key === '=') setZoom(zoom + 1);
+      else if (e.key === '-') setZoom(zoom - 1);
+      else if (e.key === '0') setZoom(0);
+      else return;
+      e.preventDefault();
+    });
+    window.addEventListener('resize', () => dialog.open && applyZoom());
+
+    // Drag to pan when zoomed.
+    let dragging = false;
+    let moved = false;
+    let sx = 0, sy = 0, sl = 0, st = 0;
+    stage.addEventListener('pointerdown', (e) => {
+      if (zoom === 0 || e.pointerType === 'touch') return;
+      dragging = true;
+      moved = false;
+      sx = e.clientX; sy = e.clientY; sl = stage.scrollLeft; st = stage.scrollTop;
+      stage.classList.add('is-dragging');
+    });
+    window.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - sx, dy = e.clientY - sy;
+      if (Math.abs(dx) + Math.abs(dy) > 4) moved = true;
+      stage.scrollLeft = sl - dx;
+      stage.scrollTop = st - dy;
+    });
+    window.addEventListener('pointerup', () => {
+      dragging = false;
+      stage.classList.remove('is-dragging');
+      setTimeout(() => (moved = false), 0);
+    });
+  }
+</script>

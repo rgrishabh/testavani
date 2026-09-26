@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+.DS_Store
+
+# Original certificate scans (copies live in src/assets/certificates)
+/WhatsApp Image *.jpeg
+/image *.jpeg

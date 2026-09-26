@@ -1,0 +1,129 @@
+---
+import { url } from '../utils/url';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Icon from './Icon.astro';
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  crumbs: Crumb[];
+  image?: ImageMetadata;
+  imageAlt?: string;
+}
+const { eyebrow, title, lead, crumbs, image, imageAlt = '' } = Astro.props;
+---
+
+<section class:list={['phero', { 'phero--media': image }]}>
+  <div class="container phero__grid">
+    <div class="phero__copy">
+      <nav aria-label="Breadcrumb" class="crumbs">
+        <ol>
+          <li><a href={url("/")}>Home</a></li>
+          {
+            crumbs.map((c) => (
+              <li>
+                <Icon name="chevron-right" size={14} />
+                {c.href ? <a href={url(c.href)}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h1>{title}</h1>
+      {lead && <p class="lead">{lead}</p>}
+      <slot />
+    </div>
+    {
+      image && (
+        <div class="phero__media">
+          <Image
+            src={image}
+            alt={imageAlt}
+            widths={[480, 720, 960]}
+            sizes="(max-width: 960px) 100vw, 520px"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .phero {
+    padding: clamp(32px, 5vw, 64px) 0 clamp(48px, 6vw, 80px);
+    background:
+      radial-gradient(800px 380px at 90% 0%, var(--green-50), transparent 70%),
+      linear-gradient(180deg, #fff, var(--surface-alt));
+    border-bottom: 1px solid var(--line);
+  }
+  .phero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 48px;
+    align-items: center;
+  }
+  .phero--media .phero__grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  }
+  .phero__copy {
+    max-width: 780px;
+  }
+  .phero h1 {
+    font-size: clamp(2rem, 1.3rem + 2.8vw, 3.4rem);
+    margin-bottom: 20px;
+  }
+  .phero .lead {
+    margin-bottom: 28px;
+  }
+  .phero__media img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+  }
+  .crumbs ol {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 6px;
+    margin-bottom: 28px;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+  .crumbs li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .crumbs a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    color: var(--green-700);
+    text-decoration: underline;
+  }
+  .crumbs [aria-current] {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  @media (max-width: 960px) {
+    .phero--media .phero__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .phero__media img {
+      aspect-ratio: 16 / 9;
+    }
+  }
+</style>

@@ -1,0 +1,261 @@
+---
+import { url } from '../utils/url';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import WhyChoose from '../components/WhyChoose.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import CTASection from '../components/CTASection.astro';
+import Icon from '../components/Icon.astro';
+import { Image } from 'astro:assets';
+import AccreditationLogos from '../components/AccreditationLogos.astro';
+import img from '../assets/images/metallurgical-analysis.jpg';
+import { expertise, purposes } from '../data/site';
+import { certifications } from '../data/certifications';
+import { breadcrumbSchema } from '../data/schema';
+
+---
+
+<BaseLayout
+  keywords="about material lab, polymer testing experts, metal testing team, lab credentials, NABL certified labs, ISO 17025 accreditation, BIS standard compliance"
+  title="About Us | Credentials & Expertise"
+  description="Learn about Avani EcoCare Labs, our expert polymer & metal testing specialists, state-of-the-art facilities, and NABL, ISO 17025 and BIS certified credentials."
+  schema={[breadcrumbSchema([{ name: 'About', path: '/about/' }])]}
+>
+  <PageHero
+    crumbs={[{ label: 'About' }]}
+    eyebrow="About AvaniEcocare Labs"
+    title="Your trusted partner in precision material testing and scientific analysis"
+    lead="Avani Ecocare Labs Pvt. Ltd. is a testing and technical services organisation providing chemical, physical and mechanical testing solutions for manufacturers, suppliers, OEMs and industries."
+  />
+
+  <section class="section" aria-labelledby="story-title">
+    <div class="container story">
+      <div class="story__copy" data-reveal>
+        <p class="eyebrow">Our Story</p>
+        <h2 id="story-title">A dedicated laboratory for materials testing</h2>
+        <p>
+          Welcome to AvaniEcocare Labs, a dedicated testing laboratory specialising in polymer and metal analysis. We provide
+          comprehensive, science-backed testing to support product development, quality assurance, failure analysis
+          and compliance across a wide range of industries.
+        </p>
+        <p>
+          We perform chemical analysis, mechanical testing and metallurgical examination of alloys, plastics, rubber,
+          coatings and other engineering materials to accurately define material composition and performance.
+          Our testing capabilities also cover plywood and wood-based products, tiles and building materials, and
+          utensils.
+        </p>
+        <p>
+          Our lab is powered by a team of highly qualified experts, including specialists with Master’s degrees in
+          Plastic Technology and Metallurgy, bringing deep domain knowledge and a research-oriented approach to every
+          project. All tests and inspections are performed by ISO 17025, NABL accredited and BIS approved
+          laboratories.
+        </p>
+        <p>
+          Whether you’re developing a new product, troubleshooting material issues or validating the quality of raw
+          materials, AvaniEcocare Labs is your trusted partner in polymer and metal testing.
+        </p>
+        <p class="story__tag">Test • Research • Innovate</p>
+      </div>
+      <div class="story__media" data-reveal data-delay="100">
+        <Image src={img} alt="Metal specimen being tested on a laboratory hardness testing machine" widths={[480, 720, 1000]} sizes="(max-width: 960px) 100vw, 520px" />
+        <ul class="story__facts">
+          <li><strong>Precision Analysis</strong><span>State-of-the-art spectrometry and microscopy for accurate results</span></li>
+          <li><strong>Rapid Turnaround</strong><span>1-hour quotes with express result delivery</span></li>
+          <li><strong>100+</strong><span>Projects completed</span></li>
+        </ul>
+        <div class="story__purposes">
+          <p>We support</p>
+          <ul class="check-list">{purposes.map((p) => <li>{p}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="expertise-title">
+    <div class="container">
+      <SectionHeader id="expertise-title" eyebrow="Our Edge" title="Why choose us" lead="Discover what sets AvaniEcocare Labs apart from the rest." />
+      <ul class="xgrid">
+        {
+          expertise.map((x, i) => (
+            <li data-reveal data-delay={i * 70}>
+              <span class="xgrid__icon"><Icon name={x.icon} size={24} /></span>
+              <h3>{x.title}</h3>
+              <p>{x.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <WhyChoose />
+  <ProcessSteps />
+
+  <section class="section" aria-labelledby="about-certs-title">
+    <div class="container certrow" data-reveal>
+      <div>
+        <p class="eyebrow">Credentials</p>
+        <h2 id="about-certs-title">Accredited and certified</h2>
+        <p class="lead">ISO 17025, NABL accredited and BIS approved testing, backed by ISO 9001, ISO 14001 and ISO 45001 management system certifications.</p>
+        <a href={url("/certifications/")} class="btn btn--outline">View Certificates <Icon name="arrow" /></a>
+      </div>
+      <ul class="certrow__list">
+        {
+          certifications.map((c) => (
+            <li>
+              <strong>{c.standard}</strong>
+              <span>{c.system}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-label="Accreditations">
+    <div class="container">
+      <AccreditationLogos />
+    </div>
+  </section>
+
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .story {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: clamp(40px, 6vw, 88px);
+    align-items: start;
+  }
+  .story__copy p:not(.eyebrow):not(.story__tag) {
+    color: var(--text);
+  }
+  .story__tag {
+    margin-top: 28px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--green-600);
+  }
+  .story__media img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+  }
+  .story__facts {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 16px 0 0;
+  }
+  .story__facts li {
+    display: grid;
+    gap: 4px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  .story__facts strong {
+    font-size: 1rem;
+    color: var(--green-700);
+  }
+  .story__purposes {
+    margin-top: 16px !important;
+    position: relative;
+    padding: 24px 26px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  .story__purposes p {
+    margin: 0 0 14px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .xgrid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .xgrid li {
+    padding: 28px 24px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .xgrid__icon {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    background: var(--green-50);
+    color: var(--green-600);
+  }
+  .xgrid p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .certrow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 40px 64px;
+    align-items: center;
+  }
+  .certrow__list {
+    list-style: none;
+    display: grid;
+    gap: 12px;
+  }
+  .certrow__list li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 4px 16px;
+    padding: 20px 24px;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--green-600);
+    border-radius: var(--radius-sm);
+  }
+  .certrow__list strong {
+    font-size: 1.15rem;
+    color: var(--ink);
+  }
+  .certrow__list span {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  @media (max-width: 1000px) {
+    .xgrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .story,
+    .certrow {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  @media (max-width: 560px) {
+    .xgrid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .story__facts {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

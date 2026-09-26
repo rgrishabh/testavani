@@ -1,0 +1,425 @@
+---
+import { url } from '../utils/url';
+import Icon from './Icon.astro';
+import { services } from '../data/services';
+import { site } from '../data/site';
+
+// Delivery provider (no secrets involved):
+// - Web3Forms when PUBLIC_WEB3FORMS_ACCESS_KEY is set. The key is public by design and
+//   can only deliver to the inbox it was registered with.
+// - Otherwise FormSubmit.co, sending to PUBLIC_FORMSUBMIT_TARGET (an email address, or the
+//   random alias FormSubmit issues after activation, which keeps the address out of the page).
+const accessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
+const formsubmitTarget = import.meta.env.PUBLIC_FORMSUBMIT_TARGET ?? '';
+---
+
+<form class="cform" data-contact-form data-key={accessKey} data-fs={accessKey ? '' : formsubmitTarget} novalidate aria-describedby="cform-note">
+  <div class="cform__grid">
+    <div class="field">
+      <label for="cf-name">Name <span aria-hidden="true">*</span></label>
+      <input id="cf-name" name="name" type="text" autocomplete="name" required maxlength="100" aria-describedby="cf-name-err" />
+      <p class="field__error" id="cf-name-err" data-error-for="name"></p>
+    </div>
+    <div class="field">
+      <label for="cf-company">Company</label>
+      <input id="cf-company" name="company" type="text" autocomplete="organization" maxlength="150" />
+    </div>
+    <div class="field">
+      <label for="cf-email">Email <span aria-hidden="true">*</span></label>
+      <input id="cf-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" aria-describedby="cf-email-err" />
+      <p class="field__error" id="cf-email-err" data-error-for="email"></p>
+    </div>
+    <div class="field">
+      <label for="cf-phone">Phone</label>
+      <input id="cf-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="20" aria-describedby="cf-phone-err" />
+      <p class="field__error" id="cf-phone-err" data-error-for="phone"></p>
+    </div>
+    <div class="field field--full">
+      <label for="cf-service">Service / Requirement</label>
+      <div class="select">
+        <select id="cf-service" name="service">
+          <option value="">Select a service (optional)</option>
+          {services.map((s) => <option value={s.slug}>{s.name}</option>)}
+          <option value="other">Other / not sure</option>
+        </select>
+        <Icon name="chevron-down" size={18} />
+      </div>
+    </div>
+    <div class="field field--full">
+      <label for="cf-message">Message <span aria-hidden="true">*</span></label>
+      <textarea id="cf-message" name="message" rows="5" required minlength="10" maxlength="3000" aria-describedby="cf-message-err" placeholder="Material or product, tests or standard required, number of samples…"></textarea>
+      <p class="field__error" id="cf-message-err" data-error-for="message"></p>
+    </div>
+
+    <!-- Honeypot: hidden from people, often filled in by bots. -->
+    <div class="hp" aria-hidden="true">
+      <label for="cf-botcheck">Leave this field empty</label>
+      <input id="cf-botcheck" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" />
+      <label for="cf-website">Website</label>
+      <input id="cf-website" type="text" name="website" tabindex="-1" autocomplete="off" />
+    </div>
+  </div>
+
+  <div class="cform__foot">
+    <p id="cform-note" class="cform__note">
+      Fields marked * are required. We use your details only to respond to your enquiry — see our{' '}
+      <a href={url("/privacy-policy/")}>Privacy Policy</a>.
+    </p>
+    <button type="submit" class="btn" data-submit>
+      <span data-submit-label>Send Enquiry</span>
+      <Icon name="arrow" />
+    </button>
+  </div>
+
+  <div class="cform__status" data-status role="status" aria-live="polite" tabindex="-1" hidden></div>
+</form>
+
+<template data-msg-success>
+  <Icon name="check" size={22} />
+  <p><strong>Thank you. Your enquiry has been submitted successfully.</strong></p>
+</template>
+<template data-msg-error>
+  <Icon name="mail" size={22} />
+  <p>
+    Something went wrong. Please try again or email us directly at{' '}
+    <a href={`mailto:${site.email}`}>{site.email}</a>.
+  </p>
+</template>
+
+<style>
+  .cform__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 20px;
+  }
+  .field {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+  }
+  .field--full {
+    grid-column: 1 / -1;
+  }
+  label {
+    font-size: 0.9rem;
+    font-weight: 650;
+    color: var(--ink);
+  }
+  label span {
+    color: var(--orange-600);
+  }
+  input,
+  select,
+  textarea {
+    width: 100%;
+    min-height: 50px;
+    padding: 12px 14px;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--ink);
+    background: #fff;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 10px;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+    appearance: none;
+  }
+  textarea {
+    resize: vertical;
+    min-height: 140px;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: #7b8781;
+  }
+  input:hover,
+  select:hover,
+  textarea:hover {
+    border-color: #a9b5ae;
+  }
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--green-600);
+    box-shadow: 0 0 0 4px rgb(19 107 69 / 14%);
+  }
+  [aria-invalid='true'] {
+    border-color: #b42318;
+  }
+  [aria-invalid='true']:focus {
+    box-shadow: 0 0 0 4px rgb(180 35 24 / 14%);
+  }
+  .select {
+    position: relative;
+  }
+  .select select {
+    padding-right: 42px;
+    cursor: pointer;
+  }
+  .select :global(svg) {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--muted);
+  }
+  .field__error {
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #b42318;
+  }
+  .field__error:empty {
+    display: none;
+  }
+  .hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .cform__foot {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 24px;
+  }
+  .cform__note {
+    margin: 0;
+    max-width: 44ch;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .cform [data-submit][disabled] {
+    opacity: 0.7;
+    cursor: progress;
+  }
+  .cform__status {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 16px 18px;
+    border-radius: 12px;
+    font-size: 0.975rem;
+  }
+  .cform__status:focus {
+    outline: none;
+  }
+  .cform__status :global(p) {
+    margin: 0;
+  }
+  .cform__status :global(svg) {
+    flex: none;
+    margin-top: 1px;
+  }
+  .cform__status.is-success {
+    background: var(--green-50);
+    border: 1px solid var(--green-200);
+    color: var(--green-900);
+  }
+  .cform__status.is-error {
+    background: #fef3f2;
+    border: 1px solid #fecdca;
+    color: #7a271a;
+  }
+  .cform__status.is-error :global(a) {
+    color: #7a271a;
+    font-weight: 700;
+  }
+  @media (max-width: 600px) {
+    .cform__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .cform__foot .btn {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  const WEB3FORMS = 'https://api.web3forms.com/submit';
+  const FORMSUBMIT = 'https://formsubmit.co/ajax/';
+  const COOLDOWN_MS = 60_000;
+  const MIN_FILL_MS = 3_000;
+  const MAX_PER_HOUR = 5;
+  const STORE_KEY = 'ae-enquiries';
+
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+
+  if (form) {
+    const loadedAt = Date.now();
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const submitLabel = form.querySelector<HTMLElement>('[data-submit-label]')!;
+    const tplSuccess = document.querySelector<HTMLTemplateElement>('[data-msg-success]')!;
+    const tplError = document.querySelector<HTMLTemplateElement>('[data-msg-error]')!;
+    const serviceSelect = form.querySelector<HTMLSelectElement>('#cf-service')!;
+
+    // Pre-select a service from ?service=slug (used by service page CTAs).
+    const wanted = new URLSearchParams(location.search).get('service');
+    if (wanted && [...serviceSelect.options].some((o) => o.value === wanted)) serviceSelect.value = wanted;
+
+    // --- Sanitising -------------------------------------------------------
+    // Single-line fields: strip control characters (incl. CR/LF, which could be
+    // used for header injection) and angle brackets; collapse whitespace.
+    const cleanLine = (v: string, max: number) =>
+      v.replace(/[\u0000-\u001F\u007F<>]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, max);
+    // Multi-line message: keep newlines/tabs, drop other control chars and markup brackets.
+    const cleanText = (v: string, max: number) =>
+      v
+        .replace(/\r\n?/g, '\n')
+        .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '')
+        .replace(/[<>]/g, '')
+        .trim()
+        .slice(0, max);
+
+    const EMAIL_RE = /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$/;
+    const PHONE_RE = /^[0-9+()\-.\s]{6,20}$/;
+
+    const field = (name: string) => form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement;
+
+    const setError = (name: string, msg: string) => {
+      const el = field(name);
+      const out = form.querySelector<HTMLElement>(`[data-error-for="${name}"]`);
+      if (out) out.textContent = msg;
+      if (msg) el.setAttribute('aria-invalid', 'true');
+      else el.removeAttribute('aria-invalid');
+    };
+
+    const validate = () => {
+      const errors: Record<string, string> = {};
+      const name = cleanLine(field('name').value, 100);
+      const email = cleanLine(field('email').value, 254);
+      const phone = cleanLine(field('phone').value, 20);
+      const message = cleanText(field('message').value, 3000);
+      if (name.length < 2) errors.name = 'Please enter your name.';
+      if (!email) errors.email = 'Please enter your email address.';
+      else if (!EMAIL_RE.test(email)) errors.email = 'Please enter a valid email address.';
+      if (phone && !PHONE_RE.test(phone)) errors.phone = 'Please enter a valid phone number.';
+      if (message.length < 10) errors.message = 'Please tell us a little more about your requirement (at least 10 characters).';
+      for (const key of ['name', 'email', 'phone', 'message']) setError(key, errors[key] ?? '');
+      return errors;
+    };
+
+    ['name', 'email', 'phone', 'message'].forEach((n) =>
+      field(n).addEventListener('blur', () => {
+        if (field(n).getAttribute('aria-invalid')) validate();
+      }),
+    );
+
+    // --- Client-side throttling (the service also rate-limits server-side) ----
+    const readLog = (): number[] => {
+      try {
+        return (JSON.parse(localStorage.getItem(STORE_KEY) || '[]') as number[]).filter((t) => Date.now() - t < 3_600_000);
+      } catch {
+        return [];
+      }
+    };
+    const writeLog = (log: number[]) => {
+      try {
+        localStorage.setItem(STORE_KEY, JSON.stringify(log));
+      } catch {
+        /* storage unavailable */
+      }
+    };
+
+    const show = (kind: 'success' | 'error') => {
+      const tpl = kind === 'success' ? tplSuccess : tplError;
+      status.replaceChildren(tpl.content.cloneNode(true));
+      status.className = `cform__status is-${kind}`;
+      status.hidden = false;
+      status.focus({ preventScroll: true });
+      status.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    };
+
+    let busy = false;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (busy) return;
+      status.hidden = true;
+
+      const errors = validate();
+      const firstInvalid = Object.keys(errors)[0];
+      if (firstInvalid) {
+        field(firstInvalid).focus();
+        return;
+      }
+
+      const honeypotFilled =
+        (form.elements.namedItem('botcheck') as HTMLInputElement).checked ||
+        (form.elements.namedItem('website') as HTMLInputElement).value !== '';
+      const tooFast = Date.now() - loadedAt < MIN_FILL_MS;
+      if (honeypotFilled || tooFast) {
+        // Pretend success so bots get no signal.
+        form.reset();
+        show('success');
+        return;
+      }
+
+      const log = readLog();
+      const last = log[log.length - 1] ?? 0;
+      const key = form.dataset.key;
+      const fsTarget = form.dataset.fs;
+      if ((!key && !fsTarget) || Date.now() - last < COOLDOWN_MS || log.length >= MAX_PER_HOUR) {
+        show('error');
+        return;
+      }
+
+      const serviceName = serviceSelect.selectedOptions[0]?.value ? serviceSelect.selectedOptions[0].text : 'Not specified';
+      const name = cleanLine(field('name').value, 100);
+      const subject = `Website enquiry: ${serviceName} — ${name}`.slice(0, 180);
+      const fields = {
+        name,
+        company: cleanLine(field('company').value, 150) || '—',
+        email: cleanLine(field('email').value, 254),
+        phone: cleanLine(field('phone').value, 20) || '—',
+        service: serviceName,
+        message: cleanText(field('message').value, 3000),
+        page: location.pathname,
+      };
+      const endpoint = key ? WEB3FORMS : FORMSUBMIT + encodeURIComponent(fsTarget!);
+      const payload = key
+        ? { access_key: key, subject, from_name: 'Avani Ecocare Website', ...fields, botcheck: false }
+        : { _subject: subject, _template: 'table', _captcha: 'false', _honey: '', ...fields };
+
+      busy = true;
+      submit.disabled = true;
+      submitLabel.textContent = 'Sending…';
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 15_000);
+
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload),
+          signal: controller.signal,
+        });
+        const data = await res.json().catch(() => ({}));
+        // Web3Forms returns success: true; FormSubmit returns success: "true".
+        if (res.ok && data && String(data.success) === 'true') {
+          writeLog([...log, Date.now()]);
+          form.reset();
+          show('success');
+        } else {
+          show('error');
+        }
+      } catch {
+        show('error');
+      } finally {
+        clearTimeout(timer);
+        busy = false;
+        submit.disabled = false;
+        submitLabel.textContent = 'Send Enquiry';
+      }
+    });
+  }
+</script>

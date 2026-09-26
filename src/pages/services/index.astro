@@ -1,0 +1,114 @@
+---
+import { url } from '../../utils/url';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import ServiceGrid from '../../components/ServiceGrid.astro';
+import SpecialisedGrid from '../../components/SpecialisedGrid.astro';
+import StandardsStrip from '../../components/StandardsStrip.astro';
+import ProcessSteps from '../../components/ProcessSteps.astro';
+import CTASection from '../../components/CTASection.astro';
+import Icon from '../../components/Icon.astro';
+import { services } from '../../data/services';
+import { breadcrumbSchema } from '../../data/schema';
+import { site } from '../../data/site';
+
+const itemList = {
+  '@type': 'ItemList',
+  name: 'Testing services',
+  itemListElement: services.map((s, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: `${site.url}/services/${s.slug}/`,
+    name: s.name,
+  })),
+};
+---
+
+<BaseLayout
+  keywords="polymer testing, plastic testing, chemical analysis, mechanical testing, NDT services, RoHS testing, REACH compliance, metal composition analysis, hardness testing"
+  title="Testing Services | Material & Polymer Analysis"
+  description="Comprehensive materials testing: chemical analysis, mechanical properties, metallurgy, hardness, NDT, corrosion, polymer testing, RoHS/REACH/PFAS and BIS-oriented testing of plastics, rubber, metals, plywood, tiles and utensils."
+  schema={[breadcrumbSchema([{ name: 'Services', path: '/services/' }]), itemList]}
+>
+  <PageHero
+    crumbs={[{ label: 'Services' }]}
+    eyebrow="Our Capabilities"
+    title="Testing services"
+    lead="NABL & ISO 17025 accredited testing across chemical, mechanical, metallurgical and polymer disciplines — all under one roof."
+  >
+    <ul class="banner-stats">
+      <li><strong>14</strong><span>Service types</span></li>
+      <li><strong>ISO 17025</strong><span>Accredited</span></li>
+      <li><strong>1 Hr</strong><span>Quote time</span></li>
+      <li><strong>100%</strong><span>Traceable reports</span></li>
+    </ul>
+    <div class="btn-row">
+      <a href={url("/contact/#enquiry")} class="btn">Request a Quote <Icon name="arrow" /></a>
+      <a href={site.phone.href} class="btn btn--outline"><Icon name="phone" /> {site.phone.display}</a>
+    </div>
+  </PageHero>
+
+  <section class="section" aria-labelledby="categories-title">
+    <div class="container">
+      <SectionHeader
+        id="categories-title"
+        eyebrow="Testing by material"
+        title="Material testing categories"
+        lead="Chemical, physical and mechanical testing of polymers, rubber, metals, plywood, tiles and utensils."
+      />
+      <ServiceGrid headingLevel="h3" />
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="specialised-title">
+    <div class="container">
+      <SectionHeader
+        id="specialised-title"
+        eyebrow="Specialised testing"
+        title="Analysis, inspection & compliance"
+        lead="Chemical composition, mechanical, metallurgical, hardness, corrosion, NDT, RoHS/REACH/PFAS and BIS-oriented testing."
+      />
+      <SpecialisedGrid />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="standards-title">
+    <div class="container">
+      <SectionHeader
+        id="standards-title"
+        eyebrow="Compliance"
+        title="Testing standards we follow"
+        lead="All our tests adhere to globally recognised standards, ensuring your materials meet international requirements."
+      />
+      <StandardsStrip />
+    </div>
+  </section>
+
+  <ProcessSteps />
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .banner-stats {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 36px;
+    margin: 0 0 28px;
+    padding: 18px 0;
+    border-block: 1px solid var(--line);
+  }
+  .banner-stats li {
+    display: grid;
+  }
+  .banner-stats strong {
+    font-size: 1.35rem;
+    color: var(--green-700);
+    letter-spacing: -0.02em;
+  }
+  .banner-stats span {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+</style>

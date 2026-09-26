@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { imageCredits } from '../data/credits';
+---
+
+<BaseLayout title="Image Credits" description="Attribution for photographs used on the Avani Ecocare Labs website under Creative Commons licences.">
+  <PageHero crumbs={[{ label: 'Image Credits' }]} title="Image Credits" lead="Some photographs on this website are used under Creative Commons licences. They are credited below." />
+  <section class="section">
+    <div class="container prose">
+      <ul>
+        {
+          imageCredits.map((c) => (
+            <li>
+              <strong>{c.usedOn}:</strong> “<a href={c.source} target="_blank" rel="noopener noreferrer">{c.title.replace(/\.(jpe?g|png)$/i, '')}</a>”
+              by {c.author}, licensed under{' '}
+              <a href={c.licenseUrl} target="_blank" rel="noopener noreferrer license">{c.license}</a>. Cropped and resized.
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

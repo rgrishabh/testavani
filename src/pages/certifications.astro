@@ -1,0 +1,227 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import CertificationGallery from '../components/CertificationGallery.astro';
+import StandardsStrip from '../components/StandardsStrip.astro';
+import AccreditationLogos from '../components/AccreditationLogos.astro';
+import CTASection from '../components/CTASection.astro';
+import { certifications, certificationBody, certificationScope } from '../data/certifications';
+import { breadcrumbSchema } from '../data/schema';
+import { site } from '../data/site';
+
+const credentials = certifications.map((c) => ({
+  '@type': 'EducationalOccupationalCredential',
+  name: `${c.standard} ${c.system}`,
+  credentialCategory: 'certification',
+  identifier: c.number,
+  recognizedBy: { '@type': 'Organization', name: certificationBody.name },
+  validUntil: '2029-09-20',
+  about: { '@id': `${site.url}/#organization` },
+}));
+---
+
+<BaseLayout
+  title="Certifications — ISO 17025, NABL, BIS, ISO 9001, 14001 & 45001"
+  description="Avani EcoCare Labs is ISO 17025 and NABL accredited and BIS approved, and certified to ISO 9001:2015, ISO 14001:2015 and ISO 45001:2018 for polymer, metal, building material, chemical, water, compliance and environmental testing."
+  schema={[breadcrumbSchema([{ name: 'Certifications', path: '/certifications/' }]), ...credentials]}
+>
+  <PageHero
+    crumbs={[{ label: 'Certifications' }]}
+    eyebrow="Certifications & Compliance"
+    title="Our labs are certified!"
+    lead="We support our clients in their new product development activities by providing engineering, testing and homologation services that fit their needs. All testing is performed to internationally recognised standards."
+  />
+
+  <section class="section" aria-labelledby="acc-title">
+    <div class="container">
+      <SectionHeader
+        id="acc-title"
+        eyebrow="Accreditations & approvals"
+        title="ISO 17025, NABL accredited & BIS approved"
+        lead="All tests and inspections are performed by ISO 17025, NABL accredited and BIS approved laboratories. All applicable tests are performed in our NABL ISO/IEC 17025 accredited laboratory, and reports are globally recognised and accepted by regulatory bodies."
+      />
+      <AccreditationLogos />
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="gallery-title">
+    <div class="container">
+      <SectionHeader
+        id="gallery-title"
+        eyebrow="ISO certificates"
+        title="Management system certificates"
+        lead="Select a certificate to view it in full. You can zoom in to read every detail."
+      />
+      <CertificationGallery />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="details-title">
+    <div class="container">
+      <SectionHeader id="details-title" eyebrow="Details" title="Certification details" />
+      <div class="table-wrap" data-reveal>
+        <table>
+          <caption class="visually-hidden">Certification details for Avani Ecocare Labs Private Limited</caption>
+          <thead>
+            <tr>
+              <th scope="col">Standard</th>
+              <th scope="col">Management system</th>
+              <th scope="col">Certificate No.</th>
+              <th scope="col">Issue date</th>
+              <th scope="col">Expiry date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              certifications.map((c) => (
+                <tr>
+                  <th scope="row">{c.standard}</th>
+                  <td data-label="Management system">{c.system}</td>
+                  <td data-label="Certificate No.">{c.number}</td>
+                  <td data-label="Issue date">{c.issued}</td>
+                  <td data-label="Expiry date">{c.expires}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <dl class="facts" data-reveal>
+        <div>
+          <dt>Certified organisation</dt>
+          <dd>Avani Ecocare Labs Private Limited</dd>
+        </div>
+        <div>
+          <dt>Scope</dt>
+          <dd>{certificationScope}</dd>
+        </div>
+        <div>
+          <dt>Certification body</dt>
+          <dd>{certificationBody.name} — {certificationBody.accreditation}</dd>
+        </div>
+        <div>
+          <dt>Verify status</dt>
+          <dd>
+            <a href={certificationBody.verifyUrl} target="_blank" rel="noopener noreferrer nofollow">uasl.uk.com/certifiedorganization</a>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="stds-title">
+    <div class="container">
+      <SectionHeader
+        id="stds-title"
+        eyebrow="Test methods"
+        title="Testing standards we follow"
+        lead="All our tests adhere to globally recognised standards, ensuring your materials meet international requirements."
+      />
+      <StandardsStrip />
+    </div>
+  </section>
+
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .table-wrap {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #fff;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  thead th {
+    background: var(--green-900);
+    color: #fff;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  tbody th {
+    color: var(--green-700);
+    font-weight: 750;
+    white-space: nowrap;
+  }
+  tbody tr:last-child > * {
+    border-bottom: 0;
+  }
+  .facts {
+    margin: 32px 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 40px;
+  }
+  .facts div {
+    padding-top: 16px;
+    border-top: 1px solid var(--line-strong);
+  }
+  .facts dt {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .facts dd {
+    margin: 0;
+    color: var(--ink);
+    font-weight: 550;
+    overflow-wrap: anywhere;
+  }
+  @media (max-width: 800px) {
+    thead {
+      display: none;
+    }
+    table,
+    tbody,
+    tr,
+    th,
+    td {
+      display: block;
+    }
+    tr {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    tbody tr:last-child {
+      border-bottom: 0;
+    }
+    tbody th {
+      padding: 0 0 8px;
+      border: 0;
+      font-size: 1.1rem;
+    }
+    td {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 6px 0;
+      border: 0;
+      text-align: right;
+    }
+    td::before {
+      content: attr(data-label);
+      color: var(--muted);
+      text-align: left;
+    }
+    .facts {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

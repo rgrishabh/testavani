@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactSection from '../components/ContactSection.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import FAQ from '../components/FAQ.astro';
+import Icon from '../components/Icon.astro';
+import { faqs } from '../data/faqs';
+import { site } from '../data/site';
+import { breadcrumbSchema, localBusinessSchema } from '../data/schema';
+
+const sampleFaqs = faqs.filter((f) => /sample|long|decide/i.test(f.q));
+---
+
+<BaseLayout
+  keywords="contact avani ecocare, materials testing laboratory address, lab phone number, whatsapp quote materials testing, Greater Noida lab location"
+  title="Contact Us | Request a Quote"
+  description="Get in touch with Avani EcoCare Labs in Greater Noida. Contact us via phone, email or WhatsApp for quick materials testing support and a 1-hour quotation."
+  schema={[breadcrumbSchema([{ name: 'Contact', path: '/contact/' }]), localBusinessSchema()]}
+>
+  <PageHero
+    crumbs={[{ label: 'Contact' }]}
+    eyebrow="Contact"
+    title="Get in touch"
+    lead="Visit our laboratory, call us, or reach out on WhatsApp — we respond within 1 hour."
+  >
+    <div class="btn-row">
+      <a href={`mailto:${site.email}`} class="btn"><Icon name="mail" /> {site.email}</a>
+      <a href={site.whatsapp.href} class="btn btn--outline" target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" /> Open WhatsApp Chat</a>
+      <a href={site.phone.href} class="btn btn--outline"><Icon name="phone" /> Call Us Now</a>
+    </div>
+  </PageHero>
+
+  <ContactSection title="Send an enquiry" />
+
+  <section class="section" aria-labelledby="cfaq-title">
+    <div class="container cfaq">
+      <SectionHeader id="cfaq-title" eyebrow="Before you send a sample" title="Samples and timelines" />
+      <FAQ items={sampleFaqs} group="contact-faq" />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .cfaq {
+    max-width: 900px;
+  }
+</style>

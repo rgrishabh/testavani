@@ -1,0 +1,88 @@
+---
+// Figures from the previous site, plus the ISO certificates.
+const stats = [
+  { value: '100+', label: 'Tests completed', detail: '8+ service areas' },
+  { value: '100%', label: 'Accredited labs', detail: 'ISO 17025 · NABL · BIS approved' },
+  { value: '1 Hr', label: 'Quote time', detail: 'Standard results in 3–5 days' },
+  { value: '3', label: 'ISO certifications', detail: 'ISO 9001 · ISO 14001 · ISO 45001' },
+];
+---
+
+<section class="trust" aria-label="Key highlights">
+  <div class="container">
+    <ul class="trust__list">
+      {
+        stats.map((s, i) => (
+          <li data-reveal data-delay={i * 70}>
+            <span class="trust__value">{s.value}</span>
+            <span class="trust__label">{s.label}</span>
+            <span class="trust__detail">{s.detail}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .trust {
+    background: var(--green-900);
+    color: #fff;
+  }
+  .trust__list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .trust__list li {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 32px 28px;
+    border-left: 1px solid rgb(255 255 255 / 12%);
+  }
+  .trust__list li:first-child {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .trust__value {
+    font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    color: #fff;
+    line-height: 1.2;
+  }
+  .trust__label {
+    font-weight: 650;
+    color: rgb(255 255 255 / 88%);
+    line-height: 1.4;
+  }
+  .trust__detail {
+    font-size: 0.875rem;
+    color: #9fd4b6;
+  }
+  @media (max-width: 960px) {
+    .trust__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .trust__list li:nth-child(3) {
+      border-left: 0;
+      padding-left: 0;
+    }
+    .trust__list li:nth-child(n + 3) {
+      border-top: 1px solid rgb(255 255 255 / 12%);
+    }
+  }
+  @media (max-width: 520px) {
+    .trust__list {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .trust__list li {
+      border-left: 0;
+      padding: 22px 0;
+    }
+    .trust__list li + li {
+      border-top: 1px solid rgb(255 255 255 / 12%);
+    }
+  }
+</style>

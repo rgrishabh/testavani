@@ -1,0 +1,102 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+---
+
+<div class="fc">
+  <button type="button" class="fc__top" data-back-to-top aria-label="Back to top" hidden>
+    <Icon name="chevron-down" size={20} />
+  </button>
+  <a href={site.whatsapp.href} class="fc__wa" target="_blank" rel="noopener noreferrer">
+    <Icon name="whatsapp" size={24} />
+    <span class="fc__label">Chat with us <small>1-hour response</small></span>
+  </a>
+</div>
+
+<style>
+  .fc {
+    position: fixed;
+    right: max(16px, env(safe-area-inset-right));
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 90;
+    display: grid;
+    justify-items: end;
+    gap: 10px;
+  }
+  .fc__wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 54px;
+    padding: 0 18px 0 15px;
+    border-radius: 999px;
+    background: #1f9d55;
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 10px 24px -8px rgb(11 47 34 / 55%);
+    transition:
+      transform 0.25s var(--ease),
+      background-color 0.2s;
+  }
+  .fc__wa:hover {
+    color: #fff;
+    background: #168447;
+    transform: translateY(-2px);
+  }
+  .fc__label {
+    display: grid;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+  .fc__label small {
+    font-size: 0.72rem;
+    font-weight: 600;
+    opacity: 0.85;
+  }
+  .fc__top {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--green-700);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+  }
+  .fc__top :global(svg) {
+    transform: rotate(180deg);
+  }
+  .fc__top[hidden] {
+    display: none;
+  }
+  @media (max-width: 640px) {
+    .fc__wa {
+      width: 54px;
+      padding: 0;
+      justify-content: center;
+    }
+    .fc__label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+  }
+</style>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('[data-back-to-top]');
+  if (btn) {
+    const update = () => (btn.hidden = window.scrollY < 800);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0 });
+      document.querySelector<HTMLElement>('#main')?.focus({ preventScroll: true });
+    });
+  }
+</script>
