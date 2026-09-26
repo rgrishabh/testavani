@@ -6,12 +6,20 @@ import { site } from '../data/site';
 interface Props {
   headingLevel?: 'h1' | 'h2';
   title?: string;
+  /** Hide the section heading when the page already has one (e.g. the Contact page hero). */
+  showHeading?: boolean;
 }
-const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
+const { headingLevel: H = 'h2', title = 'Send us your enquiry', showHeading = true } = Astro.props;
 ---
 
-<section class="section contact" id="enquiry" aria-labelledby="contact-title">
+<section
+  class="section contact"
+  id="enquiry"
+  aria-labelledby={showHeading ? 'contact-title' : undefined}
+  aria-label={showHeading ? undefined : 'Contact details and enquiry form'}
+>
   <div class="container">
+    {showHeading && (
     <div class="contact__head" data-reveal>
       <div>
         <p class="eyebrow">Contact</p>
@@ -22,6 +30,7 @@ const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
         applicable standard and a quotation.
       </p>
     </div>
+    )}
 
     <div class="contact__grid">
       <div class="contact__card contact__info" data-reveal>

@@ -21,11 +21,7 @@ import { materialServices as materials } from '../data/services';
         <a href={url("/contact/#enquiry")} class="btn">Get in Touch <Icon name="arrow" /></a>
         <a href={url("/services/")} class="btn btn--outline">Explore Our Services</a>
       </div>
-      <p class="hero__quick">
-        <a href={site.whatsapp.href} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={18} />Enquire on WhatsApp</a>
-        <a href={site.phone.href}><Icon name="phone" size={18} />Call Now</a>
-        <span>⚡ Fast 1-hour quotes</span>
-      </p>
+      <p class="hero__quick"><span>⚡ Fast 1-hour quotes</span>&nbsp;·&nbsp;Standard results in 3–5 days</p>
       <ul class="hero__creds" aria-label="Accreditations and certifications">
         <li><Icon name="standard" size={18} />ISO/IEC 17025</li>
         <li><Icon name="award" size={18} />NABL Accredited</li>
@@ -116,6 +112,10 @@ import { materialServices as materials } from '../data/services';
   }
   .hero__quick a:hover {
     text-decoration: underline;
+  }
+  .hero__quick {
+    display: block !important;
+    color: var(--muted);
   }
   .hero__quick span {
     color: var(--orange-600);

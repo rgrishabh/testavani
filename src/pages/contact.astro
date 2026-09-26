@@ -6,7 +6,6 @@ import SectionHeader from '../components/SectionHeader.astro';
 import FAQ from '../components/FAQ.astro';
 import Icon from '../components/Icon.astro';
 import { faqs } from '../data/faqs';
-import { site } from '../data/site';
 import { breadcrumbSchema, localBusinessSchema } from '../data/schema';
 
 const sampleFaqs = faqs.filter((f) => /sample|long|decide/i.test(f.q));
@@ -22,16 +21,10 @@ const sampleFaqs = faqs.filter((f) => /sample|long|decide/i.test(f.q));
     crumbs={[{ label: 'Contact' }]}
     eyebrow="Contact"
     title="Get in touch"
-    lead="Visit our laboratory, call us, or reach out on WhatsApp — we respond within 1 hour."
-  >
-    <div class="btn-row">
-      <a href={`mailto:${site.email}`} class="btn"><Icon name="mail" /> {site.email}</a>
-      <a href={site.whatsapp.href} class="btn btn--outline" target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" /> Open WhatsApp Chat</a>
-      <a href={site.phone.href} class="btn btn--outline"><Icon name="phone" /> Call Us Now</a>
-    </div>
-  </PageHero>
+    lead="Tell us about your material and testing requirement — we respond within 1 hour with the recommended tests, applicable standard and a quotation."
+  />
 
-  <ContactSection title="Send an enquiry" />
+  <ContactSection showHeading={false} />
 
   <section class="section" aria-labelledby="cfaq-title">
     <div class="container cfaq">

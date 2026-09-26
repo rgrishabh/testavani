@@ -68,8 +68,7 @@ import { site } from '../data/site';
       </div>
       <p class="more-note" data-reveal>
         <strong>Don’t see your industry?</strong> We test materials across all sectors.{' '}
-        <a href={url("/contact/#enquiry")}>Contact us with your requirements</a> or{' '}
-        <a href={site.whatsapp.href} target="_blank" rel="noopener noreferrer">WhatsApp us</a>.
+        <a href="#enquiry">Contact us with your requirements</a>.
       </p>
     </div>
   </section>
@@ -108,12 +107,8 @@ import { site } from '../data/site';
         />
         <div class="faq-help" data-reveal>
           <p class="faq-help__title">Still have questions?</p>
-          <p>Talk to our experts — we respond within 1 hour.</p>
-          <div class="faq-help__actions">
-            <a href={site.whatsapp.href} class="btn btn--sm" target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" /> Ask on WhatsApp</a>
-            <a href={site.phone.href} class="btn btn--sm btn--outline"><Icon name="phone" /> Call {site.phone.display}</a>
-          </div>
-          <a href={url("/contact/#enquiry")} class="text-link">Send an enquiry <Icon name="arrow" size={16} /></a>
+          <p>Send us your requirement — our experts respond within 1 hour.</p>
+          <a href="#enquiry" class="btn btn--sm">Send an Enquiry <Icon name="arrow" /></a>
         </div>
       </div>
       <FAQ items={faqs} />
@@ -196,12 +191,6 @@ import { site } from '../data/site';
     font-size: 1.15rem;
     font-weight: 700;
     color: var(--ink);
-  }
-  .faq-help__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 16px;
   }
   @media (max-width: 1000px) {
     .igrid {

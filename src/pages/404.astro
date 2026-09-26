@@ -2,7 +2,6 @@
 import { url } from '../utils/url';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
-import { site } from '../data/site';
 ---
 
 <BaseLayout title="Page Not Found" description="The page you are looking for does not exist or has been moved." noindex>
@@ -14,7 +13,6 @@ import { site } from '../data/site';
       <div class="btn-row">
         <a href={url("/")} class="btn">← Back to Home</a>
         <a href={url("/services/")} class="btn btn--outline">View Services</a>
-        <a href={site.phone.href} class="btn btn--outline"><Icon name="phone" /> Call {site.phone.display}</a>
       </div>
     </div>
   </section>

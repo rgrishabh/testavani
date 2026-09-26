@@ -78,7 +78,7 @@ const benefits = whyChoose.filter((_, i) => [1, 4, 5, 6].includes(i));
   >
     <div class="btn-row">
       <a href={url(`/contact/?service=${service.slug}#enquiry`)} class="btn">Request a Quote <Icon name="arrow" /></a>
-      <a href={site.phone.href} class="btn btn--outline"><Icon name="phone" /> Talk to Our Team</a>
+      <a href={url("/services/")} class="btn btn--outline">All Services</a>
     </div>
   </PageHero>
 
@@ -119,8 +119,6 @@ const benefits = whyChoose.filter((_, i) => [1, 4, 5, 6].includes(i));
           <h2 class="h3">Need this test?</h2>
           <p>Talk to our experts today and get a quote within 1 hour.</p>
           <a href={url(`/contact/?service=${service.slug}#enquiry`)} class="btn btn--light btn--sm">Send an Enquiry</a>
-          <a href={site.whatsapp.href} class="side-card__mail" target="_blank" rel="noopener noreferrer">WhatsApp us</a>
-          <a href={`mailto:${site.email}`} class="side-card__mail">{site.email}</a>
         </div>
       </aside>
     </div>
@@ -230,16 +228,6 @@ const benefits = whyChoose.filter((_, i) => [1, 4, 5, 6].includes(i));
   .side-card--dark h2 {
     color: #fff;
     margin-bottom: 8px;
-  }
-  .side-card__mail {
-    display: block;
-    margin-top: 14px;
-    color: #9fd4b6;
-    font-weight: 650;
-    overflow-wrap: anywhere;
-  }
-  .side-card__mail:hover {
-    color: #fff;
   }
   .chips {
     list-style: none;

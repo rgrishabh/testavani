@@ -1,7 +1,7 @@
 ---
 import { url } from '../utils/url';
 import Icon from './Icon.astro';
-import { nav, site } from '../data/site';
+import { nav } from '../data/site';
 
 interface Props {
   isActive: (href: string) => boolean;
@@ -26,8 +26,6 @@ const { isActive } = Astro.props;
   </nav>
   <div class="mnav__foot">
     <a href={url("/contact/#enquiry")} class="btn">Request a Consultation</a>
-    <a href={`mailto:${site.email}`} class="mnav__contact"><Icon name="mail" size={18} />{site.email}</a>
-    <a href={site.phone.href} class="mnav__contact"><Icon name="phone" size={18} />{site.phone.display}</a>
   </div>
 </div>
 
@@ -79,19 +77,6 @@ const { isActive } = Astro.props;
   .mnav__foot {
     display: grid;
     gap: 14px;
-  }
-  .mnav__contact {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--text);
-    font-weight: 600;
-    text-decoration: none;
-    overflow-wrap: anywhere;
-  }
-  .mnav__contact :global(svg) {
-    color: var(--green-600);
-    flex: none;
   }
   @media (min-width: 1081px) {
     .mnav {
