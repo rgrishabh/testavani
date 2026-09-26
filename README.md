@@ -59,6 +59,7 @@ Pushing to `main` runs `.github/workflows/deploy.yml`, which builds the site and
 | Repository variable | Effect |
 | --- | --- |
 | *(none)* | Test deploy at `https://<owner>.github.io/<repo>/`, marked `noindex` |
+| `SITE_URL` | Origin for canonical/OG URLs on a test deploy (e.g. `https://www.rgrishabh.in`) |
 | `CUSTOM_DOMAIN=avaniecocare.com` | Production: builds for the domain root and writes the `CNAME` file |
 | `PUBLIC_WEB3FORMS_ACCESS_KEY` or `PUBLIC_FORMSUBMIT_TARGET` | Contact form delivery (variable or secret) |
 

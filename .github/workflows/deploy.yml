@@ -30,7 +30,9 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          SITE_URL: ${{ vars.CUSTOM_DOMAIN && format('https://{0}', vars.CUSTOM_DOMAIN) || format('https://{0}.github.io', github.repository_owner) }}
+          # SITE_URL variable overrides the origin (e.g. https://www.rgrishabh.in when the account's
+          # Pages use a custom domain); otherwise <owner>.github.io.
+          SITE_URL: ${{ vars.CUSTOM_DOMAIN && format('https://{0}', vars.CUSTOM_DOMAIN) || vars.SITE_URL || format('https://{0}.github.io', github.repository_owner) }}
           BASE_PATH: ${{ vars.CUSTOM_DOMAIN && '/' || format('/{0}', github.event.repository.name) }}
           # Form delivery — add as a repository variable or secret (neither value is sensitive).
           PUBLIC_WEB3FORMS_ACCESS_KEY: ${{ vars.PUBLIC_WEB3FORMS_ACCESS_KEY || secrets.PUBLIC_WEB3FORMS_ACCESS_KEY }}
