@@ -16,26 +16,26 @@ const formsubmitTarget = import.meta.env.PUBLIC_FORMSUBMIT_TARGET || site.email;
 
 <form class="cform" data-contact-form data-key={accessKey} data-fs={accessKey ? '' : formsubmitTarget} novalidate aria-describedby="cform-note">
   <div class="cform__grid">
-    <div class="field">
+    <div class="field field--third">
       <label for="cf-name">Name <span aria-hidden="true">*</span></label>
       <input id="cf-name" name="name" type="text" autocomplete="name" required maxlength="100" aria-describedby="cf-name-err" />
       <p class="field__error" id="cf-name-err" data-error-for="name"></p>
     </div>
-    <div class="field">
-      <label for="cf-company">Company</label>
-      <input id="cf-company" name="company" type="text" autocomplete="organization" maxlength="150" />
-    </div>
-    <div class="field">
+    <div class="field field--third">
       <label for="cf-email">Email <span aria-hidden="true">*</span></label>
       <input id="cf-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" aria-describedby="cf-email-err" />
       <p class="field__error" id="cf-email-err" data-error-for="email"></p>
     </div>
-    <div class="field">
+    <div class="field field--third">
       <label for="cf-phone">Phone</label>
       <input id="cf-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="20" aria-describedby="cf-phone-err" />
       <p class="field__error" id="cf-phone-err" data-error-for="phone"></p>
     </div>
-    <div class="field field--full">
+    <div class="field field--half">
+      <label for="cf-company">Company</label>
+      <input id="cf-company" name="company" type="text" autocomplete="organization" maxlength="150" />
+    </div>
+    <div class="field field--half">
       <label for="cf-service">Service / Requirement</label>
       <div class="select">
         <select id="cf-service" name="service">
@@ -48,7 +48,7 @@ const formsubmitTarget = import.meta.env.PUBLIC_FORMSUBMIT_TARGET || site.email;
     </div>
     <div class="field field--full">
       <label for="cf-message">Message <span aria-hidden="true">*</span></label>
-      <textarea id="cf-message" name="message" rows="4" required minlength="10" maxlength="3000" aria-describedby="cf-message-err" placeholder="Material or product, tests or standard required, number of samples…"></textarea>
+      <textarea id="cf-message" name="message" rows="3" required minlength="10" maxlength="3000" aria-describedby="cf-message-err" placeholder="Material or product, tests or standard required, number of samples…"></textarea>
       <p class="field__error" id="cf-message-err" data-error-for="message"></p>
     </div>
 
@@ -90,8 +90,14 @@ const formsubmitTarget = import.meta.env.PUBLIC_FORMSUBMIT_TARGET || site.email;
 <style>
   .cform__grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px 16px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 12px 14px;
+  }
+  .field--third {
+    grid-column: span 2;
+  }
+  .field--half {
+    grid-column: span 3;
   }
   .field {
     display: grid;
@@ -101,8 +107,17 @@ const formsubmitTarget = import.meta.env.PUBLIC_FORMSUBMIT_TARGET || site.email;
   .field--full {
     grid-column: 1 / -1;
   }
+  @media (max-width: 1100px) and (min-width: 961px), (max-width: 760px) {
+    .field--third,
+    .field--half {
+      grid-column: span 3;
+    }
+    .field--third:nth-child(3) {
+      grid-column: 1 / -1;
+    }
+  }
   label {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 650;
     color: var(--ink);
   }
@@ -113,10 +128,10 @@ const formsubmitTarget = import.meta.env.PUBLIC_FORMSUBMIT_TARGET || site.email;
   select,
   textarea {
     width: 100%;
-    min-height: 46px;
-    padding: 10px 14px;
+    min-height: 44px;
+    padding: 9px 13px;
     font: inherit;
-    font-size: 1rem;
+    font-size: 0.975rem;
     color: var(--ink);
     background: #fff;
     border: 1.5px solid var(--line-strong);
@@ -128,7 +143,7 @@ const formsubmitTarget = import.meta.env.PUBLIC_FORMSUBMIT_TARGET || site.email;
   }
   textarea {
     resize: vertical;
-    min-height: 104px;
+    min-height: 84px;
   }
   input::placeholder,
   textarea::placeholder {
@@ -184,7 +199,7 @@ const formsubmitTarget = import.meta.env.PUBLIC_FORMSUBMIT_TARGET || site.email;
     overflow: hidden;
   }
   .cform__foot {
-    margin-top: 18px;
+    margin-top: 14px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -237,6 +252,9 @@ const formsubmitTarget = import.meta.env.PUBLIC_FORMSUBMIT_TARGET || site.email;
   @media (max-width: 600px) {
     .cform__grid {
       grid-template-columns: minmax(0, 1fr);
+    }
+    .cform__grid > .field {
+      grid-column: 1 / -1 !important;
     }
     .cform__foot .btn {
       width: 100%;
