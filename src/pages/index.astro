@@ -97,19 +97,25 @@ import { site } from '../data/site';
     </div>
   </section>
 
-  <section class="section section--alt" aria-labelledby="faq-title">
+  <section class="section section--alt faq-section" aria-labelledby="faq-title">
     <div class="container faq-grid">
-      <SectionHeader
-        id="faq-title"
-        eyebrow="FAQ"
-        title="Frequently asked questions"
-        lead="Answers to common questions about our testing services, samples and certifications."
-      >
-        <p class="faq-more">
-          Can’t find your answer? <a href={url("/contact/#enquiry")}>Send an enquiry</a> or call{' '}
-          <a href={site.phone.href}>{site.phone.display}</a>.
-        </p>
-      </SectionHeader>
+      <div class="faq-side">
+        <SectionHeader
+          id="faq-title"
+          eyebrow="Common Questions"
+          title="Frequently asked questions"
+          lead="Everything you need to know about our testing services, samples and certifications."
+        />
+        <div class="faq-help" data-reveal>
+          <p class="faq-help__title">Still have questions?</p>
+          <p>Talk to our experts — we respond within 1 hour.</p>
+          <div class="faq-help__actions">
+            <a href={site.whatsapp.href} class="btn btn--sm" target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" /> Ask on WhatsApp</a>
+            <a href={site.phone.href} class="btn btn--sm btn--outline"><Icon name="phone" /> Call {site.phone.display}</a>
+          </div>
+          <a href={url("/contact/#enquiry")} class="text-link">Send an enquiry <Icon name="arrow" size={16} /></a>
+        </div>
+      </div>
       <FAQ items={faqs} />
     </div>
   </section>
@@ -160,9 +166,42 @@ import { site } from '../data/site';
     gap: 24px clamp(40px, 6vw, 88px);
     align-items: start;
   }
-  .faq-more {
-    margin-top: 20px;
+  /* The contact section below shares this background, so drop the doubled gap. */
+  .faq-section {
+    padding-bottom: clamp(24px, 3vw, 40px);
+  }
+  .faq-section + :global(.contact) {
+    padding-top: clamp(40px, 5vw, 64px);
+  }
+  .faq-side {
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+  }
+  .faq-side :global(.sh) {
+    margin-bottom: 28px;
+  }
+  .faq-help {
+    padding: 26px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+  }
+  .faq-help p {
+    margin: 0 0 16px;
     color: var(--muted);
+  }
+  .faq-help .faq-help__title {
+    margin-bottom: 4px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .faq-help__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
   }
   @media (max-width: 1000px) {
     .igrid {
@@ -170,6 +209,9 @@ import { site } from '../data/site';
     }
     .faq-grid {
       grid-template-columns: minmax(0, 1fr);
+    }
+    .faq-side {
+      position: static;
     }
   }
   @media (max-width: 640px) {
