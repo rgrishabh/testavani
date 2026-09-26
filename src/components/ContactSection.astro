@@ -11,60 +11,68 @@ const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
 ---
 
 <section class="section contact" id="enquiry" aria-labelledby="contact-title">
-  <div class="container contact__grid">
-    <div class="contact__info" data-reveal>
-      <p class="eyebrow">Contact</p>
-      <H id="contact-title">{title}</H>
+  <div class="container">
+    <div class="contact__head" data-reveal>
+      <div>
+        <p class="eyebrow">Contact</p>
+        <H id="contact-title">{title}</H>
+      </div>
       <p class="lead">
         Tell us about your material and testing requirement — we respond within 1 hour with the recommended tests,
         applicable standard and a quotation.
       </p>
-
-      <ul class="contact__list">
-        <li>
-          <span class="contact__icon"><Icon name="mail" /></span>
-          <div>
-            <p class="contact__label">Email</p>
-            <a href={`mailto:${site.email}`} class="contact__value">{site.email}</a>
-          </div>
-        </li>
-        <li>
-          <span class="contact__icon"><Icon name="phone" /></span>
-          <div>
-            <p class="contact__label">Call us · Fast 1-hour quotes</p>
-            <a href={site.phone.href} class="contact__value">{site.phone.display}</a>
-            <a href={site.whatsapp.href} class="contact__sub" target="_blank" rel="noopener noreferrer">
-              Chat on WhatsApp <Icon name="arrow-up-right" size={14} />
-            </a>
-          </div>
-        </li>
-        <li>
-          <span class="contact__icon"><Icon name="pin" /></span>
-          <div>
-            <p class="contact__label">Laboratory</p>
-            <address class="contact__value contact__addr">
-              <span>{site.address.lines[0]}, {site.address.lines[1]}</span>
-              <span>{site.address.lines[2]}, {site.address.lines[3]}</span>
-            </address>
-            <a href={site.address.mapsHref} class="contact__sub" target="_blank" rel="noopener noreferrer">
-              Get directions <Icon name="arrow-up-right" size={14} />
-            </a>
-          </div>
-        </li>
-        <li>
-          <span class="contact__icon"><Icon name="clock" /></span>
-          <div>
-            <p class="contact__label">Working hours</p>
-            <p class="contact__value">{site.hours.display}</p>
-            <p class="contact__status" data-open-status hidden></p>
-          </div>
-        </li>
-      </ul>
     </div>
 
-    <div class="contact__form" data-reveal data-delay="100">
-      <h3 class="contact__form-title">Enquiry form</h3>
-      <ContactForm />
+    <div class="contact__grid">
+      <div class="contact__card contact__info" data-reveal>
+        <h3 class="contact__card-title">Contact details</h3>
+        <ul class="contact__list">
+          <li>
+            <span class="contact__icon"><Icon name="mail" size={20} /></span>
+            <div>
+              <p class="contact__label">Email</p>
+              <a href={`mailto:${site.email}`} class="contact__value">{site.email}</a>
+            </div>
+          </li>
+          <li>
+            <span class="contact__icon"><Icon name="phone" size={20} /></span>
+            <div>
+              <p class="contact__label">
+                Call · 1-hour quotes
+                <a href={site.whatsapp.href} class="contact__sub" target="_blank" rel="noopener noreferrer">WhatsApp <Icon name="arrow-up-right" size={13} /></a>
+              </p>
+              <a href={site.phone.href} class="contact__value">{site.phone.display}</a>
+            </div>
+          </li>
+          <li>
+            <span class="contact__icon"><Icon name="pin" size={20} /></span>
+            <div>
+              <p class="contact__label">
+                Laboratory
+                <a href={site.address.mapsHref} class="contact__sub" target="_blank" rel="noopener noreferrer">Directions <Icon name="arrow-up-right" size={13} /></a>
+              </p>
+              <address class="contact__addr">
+                {site.address.lines.join(', ')}
+              </address>
+            </div>
+          </li>
+          <li>
+            <span class="contact__icon"><Icon name="clock" size={20} /></span>
+            <div>
+              <p class="contact__label">
+                Working hours
+                <span class="contact__status" data-open-status hidden></span>
+              </p>
+              <p class="contact__value">{site.hours.display}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="contact__card contact__form" data-reveal data-delay="100">
+        <h3 class="contact__card-title">Enquiry form</h3>
+        <ContactForm />
+      </div>
     </div>
   </div>
 </section>
@@ -74,37 +82,70 @@ const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
     background: var(--surface-alt);
     padding-block: clamp(40px, 5vw, 64px);
   }
-  .contact h1,
-  .contact h2 {
-    font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.25rem);
-    margin-bottom: 10px;
+  .contact__head {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 8px clamp(24px, 4vw, 56px);
+    align-items: end;
+    margin-bottom: clamp(20px, 2.5vw, 28px);
   }
-  .contact .lead {
-    font-size: 1rem;
+  .contact__head .eyebrow {
+    margin-bottom: 8px;
+  }
+  .contact__head :global(h1),
+  .contact__head :global(h2) {
+    font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.25rem);
     margin: 0;
   }
-  .contact .eyebrow {
-    margin-bottom: 10px;
+  .contact__head .lead {
+    margin: 0;
+    font-size: 1rem;
+    max-width: 62ch;
   }
   .contact__grid {
     display: grid;
-    grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
-    gap: clamp(32px, 5vw, 64px);
-    align-items: start;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(16px, 2vw, 24px);
+    align-items: stretch;
+  }
+  .contact__card {
+    padding: clamp(18px, 2.5vw, 26px);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+  .contact__form {
+    box-shadow: var(--shadow);
+  }
+  .contact__card-title {
+    font-size: 1.05rem;
+    margin-bottom: 14px;
+  }
+  .contact__info {
+    display: flex;
+    flex-direction: column;
   }
   .contact__list {
     list-style: none;
-    display: grid;
-    gap: 12px;
-    margin-top: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
   }
   .contact__list li {
     display: flex;
     gap: 14px;
     min-width: 0;
   }
+  .contact__list li + li {
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
   .contact__list li > div {
     min-width: 0;
+    flex: 1;
   }
   .contact__icon {
     flex: none;
@@ -113,12 +154,16 @@ const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
     display: grid;
     place-items: center;
     border-radius: 10px;
-    background: #fff;
-    border: 1px solid var(--line);
+    background: var(--green-50);
+    border: 1px solid var(--green-100);
     color: var(--green-600);
   }
   .contact__label {
-    margin: 0 0 1px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 0 0 2px;
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -128,48 +173,49 @@ const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
   .contact__value {
     display: block;
     margin: 0;
+    font-size: 0.95rem;
     font-weight: 650;
     color: var(--ink);
     text-decoration: none;
     overflow-wrap: anywhere;
-    font-style: normal;
-    font-size: 0.95rem;
   }
   a.contact__value {
-    font-size: 0.975rem;
     color: var(--green-700);
   }
   a.contact__value:hover {
     text-decoration: underline;
   }
   .contact__addr {
-    display: grid;
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-style: normal;
+    font-size: 0.875rem;
     line-height: 1.5;
+    color: var(--text);
   }
   .contact__sub {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    margin-top: 2px;
-    font-size: 0.85rem;
+    gap: 3px;
+    font-size: 0.78rem;
     font-weight: 650;
+    letter-spacing: 0;
+    text-transform: none;
+    white-space: nowrap;
   }
   .contact__status {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
-    margin: 4px 0 0;
-    font-size: 0.82rem;
+    gap: 6px;
+    font-size: 0.75rem;
     font-weight: 650;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--muted);
   }
   .contact__status::before {
-    flex: none;
     content: '';
-    width: 8px;
-    height: 8px;
+    flex: none;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: var(--line-strong);
   }
@@ -178,25 +224,14 @@ const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
   }
   .contact__status.is-open::before {
     background: #1f9d55;
-    box-shadow: 0 0 0 4px rgb(31 157 85 / 18%);
-  }
-  .contact__form {
-    padding: clamp(18px, 2.5vw, 26px);
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow);
-  }
-  .contact__form-title {
-    font-size: 1.05rem;
-    margin-bottom: 12px;
+    box-shadow: 0 0 0 3px rgb(31 157 85 / 18%);
   }
   @media (max-width: 960px) {
+    .contact__head,
     .contact__grid {
       grid-template-columns: minmax(0, 1fr);
     }
   }
-
 </style>
 
 <script>
@@ -208,7 +243,7 @@ const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
       .reduce<Record<string, string>>((acc, p) => ((acc[p.type] = p.value), acc), {});
     const mins = Number(parts.hour) * 60 + Number(parts.minute);
     const open = parts.weekday !== 'Sun' && mins >= 540 && mins < 1260;
-    el.textContent = open ? 'Currently open' : 'Currently closed · we reply from 9 AM';
+    el.textContent = open ? 'Open now' : 'Closed now';
     el.classList.toggle('is-open', open);
     el.hidden = false;
   }
