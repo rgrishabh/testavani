@@ -40,7 +40,7 @@ The enquiry form needs no backend or secret. It uses one of two providers, chose
 | `PUBLIC_WEB3FORMS_ACCESS_KEY` | [Web3Forms](https://web3forms.com) | Used when set. Recommended for production: create a key for info@avaniecocare.com. The key is public by design and can only deliver to its registered inbox. |
 | `PUBLIC_FORMSUBMIT_TARGET` | [FormSubmit](https://formsubmit.co) | Fallback. An email address, or the random alias FormSubmit issues after activation (hides the address). The first submission sends an “Activate Form” email to that address. |
 
-Currently `.env` (local only, git-ignored) sets `PUBLIC_FORMSUBMIT_TARGET=rgrishabh03@gmail.com` for testing.
+With neither variable set, the form sends to info@avaniecocare.com via FormSubmit (the first submission triggers an “Activate Form” email to that inbox).
 
 For the live site, add the variable under **Settings → Secrets and variables → Actions → Variables**
 in the GitHub repository. When moving to production, switch to info@avaniecocare.com.

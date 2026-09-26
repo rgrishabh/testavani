@@ -34,7 +34,7 @@ export const industries = [
     name: 'Oil & Gas',
     icon: 'corrosion',
     text: 'Corrosion analysis, pipeline steel and coating testing.',
-    services: ['corrosion-testing', 'non-destructive-testing', 'metal-alloy-testing'],
+    services: ['corrosion-testing', 'metal-alloy-testing', 'metallurgical-analysis'],
   },
   {
     name: 'Manufacturing',

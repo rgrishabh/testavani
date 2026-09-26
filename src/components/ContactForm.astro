@@ -9,8 +9,9 @@ import { site } from '../data/site';
 //   can only deliver to the inbox it was registered with.
 // - Otherwise FormSubmit.co, sending to PUBLIC_FORMSUBMIT_TARGET (an email address, or the
 //   random alias FormSubmit issues after activation, which keeps the address out of the page).
+//   Defaults to the company inbox, info@avaniecocare.com.
 const accessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
-const formsubmitTarget = import.meta.env.PUBLIC_FORMSUBMIT_TARGET ?? '';
+const formsubmitTarget = import.meta.env.PUBLIC_FORMSUBMIT_TARGET || site.email;
 ---
 
 <form class="cform" data-contact-form data-key={accessKey} data-fs={accessKey ? '' : formsubmitTarget} novalidate aria-describedby="cform-note">

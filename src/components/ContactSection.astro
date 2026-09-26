@@ -183,14 +183,14 @@ const { headingLevel: H = 'h2', title = 'Send us your enquiry' } = Astro.props;
 </style>
 
 <script>
-  // Open/closed indicator based on India Standard Time (Mon–Sat, 9:00–18:00).
+  // Open/closed indicator based on India Standard Time (Mon–Sat, 9:00–21:00).
   const el = document.querySelector<HTMLElement>('[data-open-status]');
   if (el) {
     const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kolkata', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' })
       .formatToParts(new Date())
       .reduce<Record<string, string>>((acc, p) => ((acc[p.type] = p.value), acc), {});
     const mins = Number(parts.hour) * 60 + Number(parts.minute);
-    const open = parts.weekday !== 'Sun' && mins >= 540 && mins < 1080;
+    const open = parts.weekday !== 'Sun' && mins >= 540 && mins < 1260;
     el.textContent = open ? 'Currently open' : 'Currently closed — send an enquiry and we will reply when we open';
     el.classList.toggle('is-open', open);
     el.hidden = false;

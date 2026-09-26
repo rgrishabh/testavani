@@ -9,13 +9,12 @@ import imgBis from '../assets/images/chemical-analysis.jpg';
 import imgChem from '../assets/images/chemical-analysis.jpg';
 import imgMech from '../assets/images/mechanical-testing.jpg';
 import imgCorrosion from '../assets/images/corrosion-testing.jpg';
-import imgNdt from '../assets/images/ndt-testing.webp';
 import imgHardness from '../assets/images/hardness-testing.jpg';
 import imgRohs from '../assets/images/rohs-reach-pfas.jpg';
 
 export type IconName =
   | 'polymer' | 'rubber' | 'metal' | 'plywood' | 'tile' | 'utensil' | 'standard'
-  | 'flask' | 'gauge' | 'microscope' | 'hardness' | 'corrosion' | 'ndt' | 'chip';
+  | 'flask' | 'gauge' | 'microscope' | 'hardness' | 'corrosion' | 'chip';
 
 export interface Service {
   slug: string;
@@ -449,38 +448,6 @@ export const services: Service[] = [
       {
         q: 'Can you test coated parts for corrosion resistance?',
         a: 'Yes. We carry out coating-related and corrosion resistance testing on metals and coated components.',
-      },
-    ],
-  },
-  {
-    slug: 'non-destructive-testing',
-    group: 'specialised',
-    name: 'Non-Destructive Testing (NDT)',
-    shortName: 'NDT',
-    icon: 'ndt',
-    image: imgNdt,
-    imageAlt: 'Ultrasonic and fluorescent penetrant non-destructive testing of metal parts',
-    summary:
-      'We use ultrasonic, radiographic (X-ray), magnetic particle and dye penetrant testing to detect hidden flaws without damaging the material.',
-    seoTitle: 'Non-Destructive Testing (NDT) — UT, RT, MPI, DPT',
-    seoDescription:
-      'Non-destructive testing: ultrasonic, radiographic (X-ray), magnetic particle and dye penetrant testing to detect hidden flaws without damaging the material.',
-    overview: [
-      'We use ultrasonic, radiographic (X-ray), magnetic particle and dye penetrant testing to detect hidden flaws without damaging the material.',
-      'NDT lets you inspect welds, castings and finished components while keeping them fit for service.',
-    ],
-    scopeLabel: 'What we inspect',
-    scope: ['Welds', 'Castings and forgings', 'Metal components', 'Structural parts'],
-    tests: [
-      'Ultrasonic testing (UT)',
-      'Radiographic testing (X-ray)',
-      'Magnetic particle testing (MPI)',
-      'Dye penetrant testing (DPT)',
-    ],
-    faqs: [
-      {
-        q: 'Does NDT damage the part?',
-        a: 'No. Non-destructive methods detect hidden flaws without damaging the material, so the part can remain in service.',
       },
     ],
   },

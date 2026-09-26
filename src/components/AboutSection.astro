@@ -105,12 +105,15 @@ const points = [
     width: 100%;
     aspect-ratio: 4 / 5;
     object-fit: cover;
+    /* Keep the flasks and gloved hand (right side of the photo) in frame. */
+    object-position: 82% 50%;
     border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
   }
   .about__note {
     position: absolute;
-    right: -20px;
-    bottom: 32px;
+    left: -20px;
+    top: 32px;
     max-width: 280px;
     padding: 20px 22px;
     background: var(--green-800);
@@ -165,20 +168,25 @@ const points = [
     }
     .about__img {
       aspect-ratio: 16 / 10;
+      object-position: 70% 60%;
     }
     .about__note {
-      right: 16px;
-      bottom: 16px;
+      left: 16px;
+      top: 16px;
     }
   }
   @media (max-width: 560px) {
     .about__points {
       grid-template-columns: 1fr;
     }
+    .about__img {
+      aspect-ratio: 4 / 3;
+      object-position: 78% 60%;
+    }
     .about__note {
       position: relative;
-      right: auto;
-      bottom: auto;
+      left: auto;
+      top: auto;
       margin: -32px 12px 0;
       max-width: none;
     }

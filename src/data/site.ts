@@ -8,7 +8,7 @@ export const site = {
   legalName: 'Avani Ecocare Labs Pvt. Ltd.',
   tagline: 'Test • Research • Innovate',
   description:
-    'Avani Ecocare Labs is an ISO 17025, NABL & BIS accredited laboratory in Greater Noida offering chemical, mechanical, metallurgical and polymer testing — plastics, rubber, metals, plywood, tiles, utensils, NDT and RoHS/REACH compliance.',
+    'Avani Ecocare Labs is an ISO 17025, NABL & BIS accredited laboratory in Greater Noida offering chemical, mechanical, metallurgical and polymer testing — plastics, rubber, metals, plywood, tiles, utensils and RoHS/REACH compliance.',
   accreditation: 'ISO 17025, NABL accredited & BIS approved',
   quote: 'Fast 1-hour quotes',
   turnaround: 'Most standard tests completed within 3–5 business days',
@@ -38,10 +38,10 @@ export const site = {
       encodeURIComponent('Complex Divan Plaza, Sector 1, Bisrakh Jalalpur, Greater Noida, Uttar Pradesh 203207'),
   },
   hours: {
-    display: 'Monday – Saturday, 9:00 AM – 6:00 PM IST',
+    display: 'Monday – Saturday, 9:00 AM – 9:00 PM IST',
     days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     opens: '09:00',
-    closes: '18:00',
+    closes: '21:00',
   },
 } as const;
 
